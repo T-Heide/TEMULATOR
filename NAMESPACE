@@ -1,0 +1,3 @@
+useDynLib(TEMULATOR, .registration=TRUE)
+export("simulateTumour")
+importFrom(Rcpp, evalCpp)

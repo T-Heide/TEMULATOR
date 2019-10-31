@@ -1,0 +1,11 @@
+Package: TEMULATOR
+Type: Package
+Title: Creation of synthetic tumour sequencing data 
+Version: 1.0
+Date: 2017-11-28
+Author: Timon Heide
+Maintainer: Timon Heide <timon.heide@icr.ac.uk>
+Description: Simulates a tumour as a stochastic branching process and generates synthetic next-generation sequencing data from the resulting population.
+License: GPL-3
+Imports: Rcpp (>= 0.12.12), tibble
+LinkingTo: Rcpp, BH
