@@ -13,3 +13,4 @@ Suggests:
     covr,
     testthat (>= 2.1.0),
     digest
+RoxygenNote: 6.1.1

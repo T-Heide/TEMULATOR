@@ -1,22 +1,24 @@
-#' simulateTumour
+#' Main function used to produce a simulation
 #'
-#' @param birthrates
-#' @param deathrates
-#' @param mutation_rates
-#' @param clone_start_times
-#' @param fathers
-#' @param simulation_end_time
-#' @param seed
-#' @param number_clonal_mutations
-#' @param purity
-#' @param min_vaf
-#' @param depth
-#' @param depth_model Number specificing the depth model to use (1:  poisson distributed depth model, 2: overdispersed beta binomial (default), 3: fixed depth) 
+#' @param birthrates Birth rate(s) of subpopulations
+#' @param deathrates Death rate(s) of subpopulations
+#' @param mutation_rates Mutation rate(s) per division
+#' @param clone_start_times Timepoint (in number of reaction) a subpopulation is introduced
+#' @param fathers Subpopulation (0 based) a subpopulations originate from
+#' @param simulation_end_time Number of reactions performed
+#' @param seed Simulation seed
+#' @param number_clonal_mutations Number of clonal variants
+#' @param purity Assumed purity of the tumour
+#' @param min_vaf Minimum VAF to report
+#' @param depth Sequencing depth
+#' @param depth_model Number specificing the distribution of the sequencing depth to use (1:  poisson, 2: overdispersed beta binomial (default), 3: fixed) 
+#' @param verbose Print progress?
 #'
-#' @return
+#' @return List containing i) properties of the subclones ('clone_parameters'), ii) the main simulation parameters ('simulation_parameters'), iii) the sequencing simulation parameters ('sequencing_parameters'), iv) the final population structure ('cell_numbers'), and v) the simulated mutation data.
 #' @export
 #'
-#' @examples
+#' @examples 
+#' simulateTumour()
 simulateTumour =
   function(birthrates=c(1.0, 1.0),
            deathrates=c(0.2, 0.2),
