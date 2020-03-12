@@ -4,3 +4,6 @@ src/*.so
 .Rproj.user
 .DS_Store
 *.Rproj
+inst/doc
+doc
+Meta

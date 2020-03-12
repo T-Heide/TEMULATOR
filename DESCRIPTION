@@ -9,8 +9,16 @@ Description: Simulates a tumour as a stochastic branching process and generates 
 License: GPL-3
 Imports: Rcpp (>= 0.12.12), tibble
 LinkingTo: Rcpp, BH
+Depends: 
 Suggests: 
     covr,
     testthat (>= 2.1.0),
-    digest
-RoxygenNote: 6.1.1
+    digest,
+    knitr,
+    rmarkdown,
+    dplyr, 
+    cowplot, 
+    ggplot2
+RoxygenNote: 7.0.2
+VignetteBuilder: knitr
+

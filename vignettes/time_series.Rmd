@@ -1,0 +1,76 @@
+---
+title: "Time series data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{"Time series data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup}
+library(TEMULATOR)
+library(cowplot)
+library(ggplot2)
+library(dplyr)
+theme_set(theme_cowplot())
+```
+
+
+
+```{r time_series, fig.height = 4, fig.width=4.2}
+
+# 
+n_reactions = 1:500
+seeds = 1:5
+deathrates = c(0, 0.1, 0.25, 0.45)
+ 
+params =list(birthrates=1, # neutral tumour
+             clone_start_times=0, 
+             mutation_rate=0, 
+             fathers=0)
+
+
+# create all simulations:
+all_results = NULL
+
+for (dr in deathrates) {
+  for (n in n_reactions) {
+    for (s in seeds) {
+
+      this_params = c(params, simulation_end_time=n, seed=s, deathrates=dr)
+      this_simulation = do.call(simulateTumour, this_params)
+
+      result_this_simulation =
+       data.frame(
+         reactions=this_simulation$simulation_data["reactions"],
+          t=this_simulation$simulation_data["time"],
+          cells=sum(this_simulation$cell_numbers),
+          seed=s,
+          dr=dr
+      )
+
+      all_results = rbind(all_results, result_this_simulation)
+    }
+  }
+}
+
+
+all_results %>% 
+  ggplot(aes(x=t, y=cells, group=seed, color=as.character(seed))) + 
+    geom_line(alpha=0.7) + 
+    scale_color_brewer(palette="Set1") + 
+    xlab("Time") + 
+    ylab("Number of cells") + 
+    guides(color=FALSE) +
+    facet_wrap(~paste0("Deathrate: ", dr), ncol=2, scales="free")
+```
+
+
