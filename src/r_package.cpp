@@ -1,9 +1,3 @@
-#ifdef _DEBUG_
-#define D(x) x
-#else
-#define D(x)
-#endif
-
 #include <stdlib.h>
 #include "extern_global_variables.h"
 #include <cmath>

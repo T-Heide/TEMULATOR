@@ -16,12 +16,6 @@
 */
 
 
-#ifdef _DEBUG_
-#define D(x) x
-#else
-#define D(x)
-#endif
-
 #include "extern_global_variables.h"
 #include "CellType.h"
 #include "Cell.h"
@@ -191,13 +185,6 @@ CellType* Universe::NextReaction(long double* r_delta_time, int* action) const{
     Rcpp::stop("In Universe::NextReaction: No type to choose.");
   }
 
-  // Debug messages:
-  D(Rcpp::Rcout << std::endl;)
-  D(Rcpp::Rcout << "########## Sampling ###########" << std::endl;)
-  D(Rcpp::Rcout << "  Next reaction type:" << std::endl;)
-  D(Rcpp::Rcout << std::endl;)
-
-
   // Keep track of minum index and dt:
   double delta_time_minimum;
   int index_minimum;
@@ -206,23 +193,11 @@ CellType* Universe::NextReaction(long double* r_delta_time, int* action) const{
 
   // Calculate dt for all types in the universe:
   for(std::vector<CellType*>::size_type i = 0; i < mpTypes.size(); i++) {
-    // Debug messages:
-    D(Rcpp::Rcout << "    Candidate " << i <<  ":" << std::endl;)
-    D(Rcpp::Rcout << "      No: " << i << std::endl;)
-    D(Rcpp::Rcout << "      Type: " << mpTypes[i]->Id() << std::endl;)
-    D(Rcpp::Rcout << "      BR: " << mpTypes[i]->Birthrate() << std::endl;)
-    D(Rcpp::Rcout << "      N: " << mpTypes[i]->NumMembers() << std::endl;)
-
 
     long double runi = runi_dist(rng);
     long double c_birthrate = mpTypes[i]->Birthrate();
     long double c_number = mpTypes[i]->NumMembers();
     long double delta_time_current = (log(1) - log(runi)) / (c_number * c_birthrate);
-
-    // Debug messages:
-    D(Rcpp::Rcout << "      X: " << runi << std::endl;)
-    D(Rcpp::Rcout << "      dt: " <<  delta_time_current <<  std::endl;)
-    D(Rcpp::Rcout << std::endl;)
 
     // Keep track of minum index and dt:
     if (i == 0 || delta_time_minimum > delta_time_current) {
@@ -230,13 +205,6 @@ CellType* Universe::NextReaction(long double* r_delta_time, int* action) const{
       delta_time_minimum = delta_time_current;
     }
   }
-
-  // Debug messages:
-  D(Rcpp::Rcout << "  Selected:" << std::endl;)
-  D(Rcpp::Rcout << "    Type No: #" << index_minimum << std::endl;)
-  D(Rcpp::Rcout << "    Type: " << mpTypes[index_minimum]->Id() << std::endl;)
-  D(Rcpp::Rcout << "    dt: " << delta_time_minimum << std::endl;)
-  D(Rcpp::Rcout << "###############################" << std::endl;)
 
   // Return results:
   *r_delta_time = delta_time_minimum;
@@ -353,14 +321,6 @@ bool Universe::InsertCell(Cell* pCell) {
 
 bool Universe::InsertCell(Cell* pCell, bool is_new_lineage) {
 
-  // Debug messages:
-  D(Rcpp::Rcout << std::endl;)
-  D(Rcpp::Rcout << "########## Insertion ##########" << std::endl;)
-  D(Rcpp::Rcout << "   ID: " << pCell->Id() << std::endl;)
-  D(Rcpp::Rcout << "   Location:" << std::endl;)
-  D(Rcpp::Rcout << "       Universe: " << this << std::endl;)
-  D(Rcpp::Rcout << "###############################" << std::endl;)
-
   // Insert type into universe
   if (is_new_lineage) {
     this->RegisterType(pCell->Type());
@@ -385,15 +345,12 @@ void Universe::RegisterType(CellType* p_new_type){
   std::vector<CellType *>::size_type i = 0;
 
   while(i < mpTypes.size()) {
-    D(Rcpp::Rcout << "Comparing new cell type " <<  p_new_type;)
-    D(Rcpp::Rcout << " with " << mpTypes[i] << std::endl;)
     if (mpTypes[i] == p_new_type)
       break;
     i++;
   }
 
   if (i == mpTypes.size()) { // reached end.
-    D(Rcpp::Rcout << "Registering new cell type " <<  p_new_type << std::endl;)
     mpTypes.push_back(p_new_type);
   }
 }

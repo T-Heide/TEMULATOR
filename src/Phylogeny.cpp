@@ -16,12 +16,6 @@
 */
 
 
-#ifdef _DEBUG_
-#define D(x) x
-#else
-#define D(x)
-#endif
-
 #define DEPTH_OVERDISPERSION 0.08
 
 
@@ -76,8 +70,6 @@ PhylogenyNode::PhylogenyNode(Cell* pCell) //
     pCell->AssociatedNode(this);
 
     mTypeId = pCell->Type() == 0 ? 0 : pCell->Type()->Id();
-
-    D(Rcpp::Rcout << "Created node " << this << std::endl;)
   }
 
 PhylogenyNode::PhylogenyNode(Cell* pCell, PhylogenyNode* pUp)
@@ -95,32 +87,25 @@ PhylogenyNode::PhylogenyNode(Cell* pCell, PhylogenyNode* pUp)
     pCell->AssociatedNode(this);
 
     mTypeId = pCell->Type() == 0 ? 0 : pCell->Type()->Id();
-
-    D(Rcpp::Rcout << "Created node " << this << std::endl;)
   }
 
 //Destructor
 PhylogenyNode::~PhylogenyNode() {
 
-  D(Rcpp::Rcout << "Deleting node " << this << std::endl;)
-
   // Delete left node:
   if (mpLeft != 0) {
-    D(Rcpp::Rcout << " - Call delete on left " << mpLeft << std::endl;)
     delete mpLeft;
     mpLeft = 0;
   }
 
   // Delete right node:
   if (mpRight != 0) {
-    D(Rcpp::Rcout << " - Call delete on right " << mpRight << std::endl;)
     delete mpRight;
     mpRight = 0;
   }
 
   // Delete associated cell:
   if (mpCell != 0) {
-    D(Rcpp::Rcout << "Call delete on cell " << mpCell << std::endl;)
     mpCell->AssociatedNode(0); // unlink cell first
     delete mpCell;
     mpCell = 0;

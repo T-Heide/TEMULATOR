@@ -15,11 +15,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifdef _DEBUG_
-#define D(x) x
-#else
-#define D(x)
-#endif
 
 #include "extern_global_variables.h"
 #include "Cell.h"
@@ -60,7 +55,6 @@ Cell::Cell (CellType* pType)
 
 // Destructor:
 Cell::~Cell(){ // Proper deletion of a cell.
-  D(Rcpp::Rcout << "Cell " << mId << "(" << this << ") dies!" << std::endl;) // Debug message
 
   mpType->DeregisterMember(this);      // Let the associated type forget.
 
@@ -79,10 +73,6 @@ Cell::~Cell(){ // Proper deletion of a cell.
         lNode = cNode;
         cNode = cNode->UpNode();
       }
-
-      // Debug message
-      D(Rcpp::Rcout << "Trimming back tree from " << mpNode << std::endl;)
-      D(Rcpp::Rcout << "                     to " << lNode << std::endl;)
 
       if (cNode != 0) { // Don't delete the root node ...
         delete lNode;
@@ -185,11 +175,6 @@ void Cell::DoAction(int *action) {
 
 void Cell::Divide() {
 
-  // Debug messages:
-  D(Rcpp::Rcout << std::endl;)
-  D(Rcpp::Rcout << "########### Division ###########" << std::endl;)
-  D(Rcpp::Rcout << "  Cell:" << this->Id() << std::endl;)
-
   // Cells that were not introduced into a universe can't divide!
   if (mpUniverse == 0) {
     Rcpp::Rcerr << "Cells not introduced into universe can't divide!" << std::endl;
@@ -197,8 +182,6 @@ void Cell::Divide() {
   }
 
   if(this->AsProgenitorDies()){
-    D(Rcpp::Rcout << "  Cell died during division" << std::endl;)
-    D(Rcpp::Rcout << "###############################" << std::endl;)
     delete this;
   } else {
 
@@ -214,8 +197,5 @@ void Cell::Divide() {
     old_node->RightNode(new_right_node);
     mpUniverse->InsertCell(pDaughter, false);
     pDaughter->MutateCell();
-
-    D(Rcpp::Rcout << "  Cell divided." << std::endl;)
-    D(Rcpp::Rcout << "###############################" << std::endl;)
   }
 }

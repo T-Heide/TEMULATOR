@@ -16,12 +16,6 @@
 */
 
 
-#ifdef _DEBUG_
-#define D(x) x
-#else
-#define D(x)
-#endif
-
 #include "extern_global_variables.h"
 #include "CellType.h"
 #include "Cell.h"
@@ -68,15 +62,6 @@ Cell* CellType::RandomMember() const {
   boost::random::uniform_int_distribution< unsigned long> unif_member(0, max_i);
   unsigned long rm = unif_member(rng);
 
-  // Debug messages:
-  D(Rcpp::Rcout << std::endl;)
-  D(Rcpp::Rcout << "########## Sampling ###########" << std::endl;)
-  D(Rcpp::Rcout << "  Next reaction member:" << std::endl;)
-  D(Rcpp::Rcout << "    Member No: " << mpMembers[rm]->Id() << std::endl;)
-  D(Rcpp::Rcout << "    Member: " << mpMembers[rm] << std::endl;)
-  D(Rcpp::Rcout << "    Type: " << this->Id() << std::endl;)
-  D(Rcpp::Rcout << "###############################" << std::endl;)
-
   return mpMembers[rm];
 }
 
@@ -88,7 +73,6 @@ void CellType::RegisterMember(Cell* pCell){
 }
 
 void CellType::DeregisterMember(Cell* pCell){
-  D(Rcpp::Rcout << "Deregister member " << pCell << std::endl;)
   std::vector<Cell*>::size_type i = pCell->TypeIndex();  // iterator for members vector.
   std::vector<Cell*>::size_type j = mpMembers.size() - 1;  // iterator for members vector.
 
