@@ -4,22 +4,32 @@
 \alias{simulateTumour}
 \title{Main function used to produce a simulation}
 \usage{
-simulateTumour(birthrates = c(1, 1), deathrates = c(0.2, 0.2),
-  mutation_rates = c(16, 16), clone_start_times = c(0, 256),
-  fathers = c(0, 0), simulation_end_time = 1048576, seed = 42,
-  number_clonal_mutations = 100, purity = 1, min_vaf = 0.01,
-  depth = 100, depth_model = 2, verbose = FALSE)
+simulateTumour(
+  birthrates = c(1, 1),
+  deathrates = c(0.2, 0.2),
+  mutation_rates = c(16, 16),
+  clone_start_times = c(0, 256),
+  fathers = c(0, 0),
+  simulation_end_time = 1048576,
+  seed = 42,
+  number_clonal_mutations = 100,
+  purity = 1,
+  min_vaf = 0.01,
+  depth = 100,
+  depth_model = 2,
+  verbose = FALSE
+)
 }
 \arguments{
-\item{birthrates}{Birt rate of subpopulations}
+\item{birthrates}{Birth rate(s) of subpopulations}
 
-\item{deathrates}{Death rate of subpopulations}
+\item{deathrates}{Death rate(s) of subpopulations}
 
-\item{mutation_rates}{Mutation rate per division}
+\item{mutation_rates}{Mutation rate(s) per division}
 
 \item{clone_start_times}{Timepoint (in number of reaction) a subpopulation is introduced}
 
-\item{fathers}{Subpopulation index (0 based) to originates from.}
+\item{fathers}{Subpopulation (0 based) a subpopulations originate from}
 
 \item{simulation_end_time}{Number of reactions performed}
 
@@ -33,9 +43,9 @@ simulateTumour(birthrates = c(1, 1), deathrates = c(0.2, 0.2),
 
 \item{depth}{Sequencing depth}
 
-\item{depth_model}{Number specificing the distribution of the sequencing depth to use (1:  poisson distributed depth model, 2: overdispersed beta binomial (default), 3: fixed depth)}
+\item{depth_model}{Number specificing the distribution of the sequencing depth to use (1:  poisson, 2: overdispersed beta binomial (default), 3: fixed)}
 
-\item{verbose}{Switch to print progress}
+\item{verbose}{Print progress?}
 }
 \value{
 List containing i) properties of the subclones ('clone_parameters'), ii) the main simulation parameters ('simulation_parameters'), iii) the sequencing simulation parameters ('sequencing_parameters'), iv) the final population structure ('cell_numbers'), and v) the simulated mutation data.

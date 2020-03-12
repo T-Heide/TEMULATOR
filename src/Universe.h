@@ -27,46 +27,74 @@ class Shape;
 
 // Includes: ///////////////////////////////////////////////////////////////////
 #include <vector>
-#include "SimulationParameterSet.h"
+#include "Rcpp.h"
 
 // Universe ////////////////////////////////////////////////////////////////////
 
 class Universe {
-    long double mTime;
+  
+   // summaries
+    unsigned int mNumberOfClones;
     unsigned int mNumberOfCells;
     unsigned int mNumberOfReactions;
+    long double mTime;
+
+    // other parameters
+    unsigned int mSimulationEndTime;
+    unsigned int mNextClone;
+    int mSeed;
+    
+    // clone parameters
+    std::vector <double> mMutationrates;
+    std::vector <double> mBirthrates;
+    std::vector <double> mDeathrates;
+    std::vector <unsigned int> mCloneStartTimes;
+    std::vector <unsigned int> mFathers;
+    unsigned int mClonalMutations;
+    
+    // other objects
     std::vector<CellType*> mpTypes;
     std::vector<PhylogenyRoot*> mpPhylogenies;
-    SimulationParameterSet mParameters;
 
   public:
     // Constructor:
-    Universe(SimulationParameterSet);
-
+    Universe(
+      Rcpp::DataFrame,
+      unsigned int,
+      unsigned int,
+      int);
+    
     // Destructor:
     ~Universe();
 
     // Simulate tumour:
     bool RunSimulation(bool);
-    bool RunSimulation();
 
     // Getter functions:
     double Time() const;
     unsigned int Reactions() const;
+    std::vector <unsigned int> CellCounts() const;
     
     class CellType* NextReaction(long double*, int*) const;
-    bool Sample(std::vector <int>&, std::vector <double>&) const;
-    bool Sample(std::vector <int>&, std::vector <int>&, std::vector <int> &, std::vector <std::string>&);
-    bool SampleToFile(std::string) const;
-    std::vector <unsigned int> CellCounts() const;
-
+    bool Sample(std::vector <int>&, std::vector <double>&, double, double, double, int) const;
+    bool Sample(std::vector <int>&, std::vector <int>&, std::vector <int> &, std::vector <std::string>&, double, double, double, int) const;
+    Rcpp::DataFrame SampleRcpp(double, double, double, int ) const;
+    
+    bool SampleToFile(std::string, double, double, double, int) const;
+    unsigned int get_SimulationEndTime() const;
+      
+    
     // Setter functions:
     void IncrementTimeBy(long double);
     bool InsertCell(Cell*);
     bool InsertCell(Cell*, bool);
     void RegisterType(CellType *);
+    void set_SimulationEndTime(unsigned int);
+    
+    
 
     // Output Functions:
+    void Print() const;
     void PrintCellTypes() const;
     bool WriteCellCountsToFile(std::string) const;
 

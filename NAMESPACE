@@ -1,3 +1,6 @@
 useDynLib(TEMULATOR, .registration=TRUE)
 export("simulateTumour")
-importFrom(Rcpp, evalCpp)
+export("TEMULATOR_object")
+import(Rcpp)
+import(tibble)
+import(methods)

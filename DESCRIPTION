@@ -7,8 +7,8 @@ Author: Timon Heide
 Maintainer: Timon Heide <timon.heide@icr.ac.uk>
 Description: Simulates a tumour as a stochastic branching process and generates synthetic next-generation sequencing data from the resulting population.
 License: GPL-3
-Imports: Rcpp (>= 0.12.12), tibble
-LinkingTo: Rcpp, BH
+Imports: Rcpp (>= 0.12.12), tibble, methods
+LinkingTo: Rcpp, BH, RcppProgress
 Depends: 
 Suggests: 
     covr,

@@ -25,6 +25,7 @@ simulateTumour =
            mutation_rates=c(16, 16),
            clone_start_times=c(0, 256),
            fathers=c(0,0),
+           
            simulation_end_time=1048576,
            seed=42,
            number_clonal_mutations=100,
@@ -34,51 +35,80 @@ simulateTumour =
            depth_model=2,
            verbose=FALSE) {
 
+    
+  # Put parameters into structures, that are later returned
+  sim_params = 
+    c(
+      simulation_end_time=simulation_end_time,
+      seed=seed
+     )
+    
+  clone_params = 
+    data.frame(
+      birthrate=birthrates, 
+      deathrate=deathrates, 
+      mutationrate=mutation_rates,
+      start_time=clone_start_times,
+      father=fathers,
+      row.names=paste0("clone_", seq_along(mutation_rates))
+    )
+  
+  seq_params =
+    c(
+      number_clonal_mutations=number_clonal_mutations,
+      purity=purity,
+      min_vaf=min_vaf,
+      depth=depth,
+      depth_model=depth_model
+     )
+  
+  
+  # Create simulation object
+  simulation = 
+    new(
+      TEMULATOR_object,
+        clone_params, 
+        simulation_end_time, 
+        number_clonal_mutations,
+        seed
+    )
+  
+  # run the simulation, this might take a while
+  success = simulation$run(verbose)
+  if (!success) stop("Simulation failed")
 
-  # Create structures containing simulation parameters:
-  clone_params = list(birthrates=birthrates,
-                      deathrates=deathrates,
-                      mutation_rates=mutation_rates,
-                      clone_start_times=clone_start_times,
-                      fathers=fathers)
+  
+  # Print results if verbose
+  if (verbose) simulation$print()
+  if (verbose) simulation$print_cell_types()
+  
+  
+  # Sample the results:
+  n_cells = simulation$cell_counts; names(n_cells) = rownames(clone_params)
+  sim_data = c(time=simulation$simulation_time, reactions=simulation$n_reactions)
+  mutation_data = as_tibble(simulation$sample(min_vaf, purity, depth, depth_model))
+  
+  rm(simulation)
+  
+  
+  # for consistency with old version change colnames:
+  colnames(clone_params) = c("birthrates",
+                             "deathrates",
+                             "mutation_rates",
+                             "clone_start_times",
+                             "fathers")
 
-  sim_params = c(simulation_end_time=simulation_end_time,
-                 seed=seed)
-
-  seq_params = c(number_clonal_mutations=number_clonal_mutations,
-                 purity=purity,
-                 min_vaf=min_vaf,
-                 depth=depth,
-                 depth_model=depth_model)
-
-
-  # Test inputs:
-  if (length(unique(sapply(clone_params, length))) != 1) {
-    stop("Clone parameters must be of equal length.\n")
-  }
-
-  # ToDo:... additional tests of inputs needed!
-
-
-  # Call simulation:
-  params = c(clone_params,  as.list(sim_params), as.list(seq_params),  verbose=verbose)
-  sim_results = do.call(SimulateTumor, params)
-
-
-  # Modify objects for return:
-
-  clone_params = as.data.frame(clone_params)
-  rownames(clone_params) = paste0("clone_", seq_len(NROW(clone_params)))
-
-  params = list(clone_parameters=clone_params,
-                simulation_parameters=sim_params,
-                sequencing_parameters=seq_params)
-
-  names(sim_results$cell_numbers) = rownames(clone_params)
-
-  sim_results$mutation_data = tibble::as_tibble(sim_results$mutation_data)
-
-  sim_results = c(params, sim_results)
-
-  invisible(sim_results)
+  return = 
+    list(
+      clone_parameters = clone_params,
+      simulation_parameters = sim_params,
+      sequencing_parameters = seq_params,
+      cell_numbers = n_cells,
+      simulation_data=sim_data,
+      mutation_data = mutation_data
+    )
+  
+  invisible(return)
+  
 }
+
