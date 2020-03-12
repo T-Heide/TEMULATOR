@@ -9,3 +9,5 @@ Description: Simulates a tumour as a stochastic branching process and generates 
 License: GPL-3
 Imports: Rcpp (>= 0.12.12), tibble
 LinkingTo: Rcpp, BH
+Suggests: 
+    covr
