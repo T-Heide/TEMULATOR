@@ -11,7 +11,7 @@
 #' @param purity Assumed purity of the tumour
 #' @param min_vaf Minimum VAF to report
 #' @param depth Sequencing depth
-#' @param depth_model Number specificing the distribution of the sequencing depth to use (1:  poisson, 2: overdispersed beta binomial (default), 3: fixed) 
+#' @param depth_model Number specificing the distribution of the sequencing depth to use (0: no sequencing, 1:  poisson, 2: overdispersed beta binomial (default), 3: fixed) 
 #' @param verbose Print progress?
 #'
 #' @return List containing i) properties of the subclones ('clone_parameters'), ii) the main simulation parameters ('simulation_parameters'), iii) the sequencing simulation parameters ('sequencing_parameters'), iv) the final population structure ('cell_numbers'), and v) the simulated mutation data.
@@ -86,7 +86,12 @@ simulateTumour =
   # Sample the results:
   n_cells = simulation$cell_counts; names(n_cells) = rownames(clone_params)
   sim_data = c(time=simulation$simulation_time, reactions=simulation$n_reactions)
-  mutation_data = as_tibble(simulation$sample(min_vaf, purity, depth, depth_model))
+  
+  if (depth_model != 0) {
+    mutation_data = as_tibble(simulation$sample(min_vaf, purity, depth, depth_model))
+  } else {
+    mutation_data = NULL
+  }
   
   rm(simulation)
   
