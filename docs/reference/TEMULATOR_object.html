@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Main function used to produce a simulation — simulateTumour • TEMULATOR</title>
+<title>A TEMULATER simulation — TEMULATOR_object • TEMULATOR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 
 
 
-<meta property="og:title" content="Main function used to produce a simulation — simulateTumour" />
-<meta property="og:description" content="Main function used to produce a simulation" />
+<meta property="og:title" content="A TEMULATER simulation — TEMULATOR_object" />
+<meta property="og:description" content="Type the name of the class to see its methods" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -120,101 +120,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Main function used to produce a simulation</h1>
+    <h1>A TEMULATER simulation</h1>
     
-    <div class="hidden name"><code>simulateTumour.Rd</code></div>
+    <div class="hidden name"><code>TEMULATOR_object.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Main function used to produce a simulation</p>
+    <p>Type the name of the class to see its methods</p>
     </div>
 
-    <pre class="usage"><span class='fu'>simulateTumour</span>(
-  <span class='kw'>birthrates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-  <span class='kw'>deathrates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.2</span>),
-  <span class='kw'>mutation_rates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>16</span>, <span class='fl'>16</span>),
-  <span class='kw'>clone_start_times</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>256</span>),
-  <span class='kw'>fathers</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>),
-  <span class='kw'>simulation_end_time</span> <span class='kw'>=</span> <span class='fl'>1048576</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>42</span>,
-  <span class='kw'>number_clonal_mutations</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>purity</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>min_vaf</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>depth</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>depth_model</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>birthrates</th>
-      <td><p>Birth rate(s) of subpopulations</p></td>
-    </tr>
-    <tr>
-      <th>deathrates</th>
-      <td><p>Death rate(s) of subpopulations</p></td>
-    </tr>
-    <tr>
-      <th>mutation_rates</th>
-      <td><p>Mutation rate(s) per division</p></td>
-    </tr>
-    <tr>
-      <th>clone_start_times</th>
-      <td><p>Timepoint (in number of reaction) a subpopulation is introduced</p></td>
-    </tr>
-    <tr>
-      <th>fathers</th>
-      <td><p>Subpopulation (0 based) a subpopulations originate from</p></td>
-    </tr>
-    <tr>
-      <th>simulation_end_time</th>
-      <td><p>Number of reactions performed</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>Simulation seed</p></td>
-    </tr>
-    <tr>
-      <th>number_clonal_mutations</th>
-      <td><p>Number of clonal variants</p></td>
-    </tr>
-    <tr>
-      <th>purity</th>
-      <td><p>Assumed purity of the tumour</p></td>
-    </tr>
-    <tr>
-      <th>min_vaf</th>
-      <td><p>Minimum VAF to report</p></td>
-    </tr>
-    <tr>
-      <th>depth</th>
-      <td><p>Sequencing depth</p></td>
-    </tr>
-    <tr>
-      <th>depth_model</th>
-      <td><p>Number specificing the distribution of the sequencing depth to use (1:  poisson, 2: overdispersed beta binomial (default), 3: fixed)</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Print progress?</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
-    <p>List containing i) properties of the subclones ('clone_parameters'), ii) the main simulation parameters ('simulation_parameters'), iii) the sequencing simulation parameters ('sequencing_parameters'), iv) the final population structure ('cell_numbers'), and v) the simulated mutation data.</p>
+    
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>simulateTumour</span>()</div></pre>
+<dl class='dl-horizontal'>
+<dt><code>print</code></dt><dd><p>Print the object</p></dd>
+
+<dt><code>print_cell_types</code></dt><dd><p>Print contained cell types</p></dd>
+
+<dt><code>run</code></dt><dd><p>Start or restart the simulation <ul>
+<li><p>Parameter: verbose - bool, Flag indicating if progress should be printed.</p></li>
+<li><p>Returns: bool, Indicating success.</p></li>
+</ul></p></dd>
+
+<dt><code>sample</code></dt><dd><p>Sample mutations from the population <ul>
+<li><p>Parameter: min_vaf - double, Minimum VAF reported.</p></li>
+<li><p>Parameter: purity - double, Assumed purity of the tumour.</p></li>
+<li><p>Parameter: depth - double, Sequencing depth.</p></li>
+<li><p>Parameter: depth_model - int,  Distribution of the sequencing depth (1: poisson, 2: overdispersed beta binomial (default), 3: fixed).</p></li>
+<li><p>Returns: data.frame containing mutation information.</p></li>
+</ul></p></dd>
+
+</dl>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#fields">Fields</a></li>
     </ul>
 
   </div>

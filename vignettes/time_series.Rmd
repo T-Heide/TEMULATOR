@@ -24,9 +24,9 @@ theme_set(theme_cowplot())
 ```
 
 
+# Neutral tumours with variable death rates
 
-```{r time_series, fig.height = 4, fig.width=4.2}
-
+```{r}
 # fixed parameters, a neutral tumour:
 fixed_clone_params = data.frame(
   birthrate = 1,
@@ -39,10 +39,10 @@ fixed_clone_params = data.frame(
 n_reactions = 1:1000
 seeds = 1:5
 deathrates = c(0, 0.1, 0.25, 0.45)
- 
+```
 
 
-
+```{r fig.height = 4, fig.width=4.2}
 # create all simulations:
 all_results = NULL
 
@@ -70,8 +70,10 @@ for (dr in deathrates) {
     }
   }
 }
+```
 
 
+```{r fig.height = 4, fig.width=4.2}
 all_results %>% 
   ggplot(aes(x=t, y=cells, group=seed, color=as.character(seed))) + 
     geom_line(alpha=0.7) + 
@@ -82,4 +84,71 @@ all_results %>%
     facet_wrap(~paste0("Deathrate: ", dr), ncol=2, scales="free")
 ```
 
+
+
+# One subclone with variable death rates
+
+```{r}
+# fixed parameters, a neutral tumour:
+fixed_clone_params = data.frame(
+  birthrate = c(1, 1.3),
+  mutationrate = c(0, 0),
+  father = c(0, 0),
+  deathrate = c(0,0)
+)
+
+
+# varied parameters:
+n_reactions = unique(round(2^seq(from=0, to=18, by=0.5)))
+seeds = 1
+start_times = c(10, 20, 30, 40)
+```
+
+
+```{r fig.height = 4, fig.width=4.2}
+# create all simulations:
+all_results = NULL
+
+for (st in start_times) {
+  for (s in seeds) {
+    
+    this_params = fixed_clone_params %>% mutate(start_time=st)
+    sim = new(TEMULATOR_object, this_params, 0, 100, s)
+
+    for (n in n_reactions) {
+
+      sim$end_time = n
+      sim$run(FALSE) # play forward, not verbose
+      
+      result_this_simulation =
+        data.frame(
+          reactions=sim$n_reactions,
+          t=sim$simulation_time,
+          cells=sum(sim$cell_counts),
+          clone1=sim$cell_counts[1],
+          clone2=sim$cell_counts[2],
+          seed=s,
+          start_time=st
+        )
+
+      all_results = rbind(all_results, result_this_simulation)
+    }
+  }
+}
+```
+
+
+
+```{r fig.height = 4, fig.width=5.5}
+all_results %>% 
+  ggplot(aes(x=t, y=cells, group=seed)) + 
+    geom_line(alpha=1.0) + 
+    geom_line(alpha=0.7, aes(color="A", y=clone1), linetype=2) + 
+    geom_line(alpha=0.7, aes(color="B", y=clone2), linetype=2) + 
+    scale_color_brewer(palette="Set1") + 
+    xlab("Time") + 
+    ylab("Number of cells") + 
+    labs(color="Clone") +
+    facet_wrap(~paste0("Start time: ", start_time), ncol=2, scales="free")
+```
 
