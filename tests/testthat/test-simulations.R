@@ -35,130 +35,7 @@ tested_simulations =
 
 
 test_that("object structure", {
-
-  test_object_structure = 
-    function(x) {
-      
-      # returned structure is a named list
-      # containing the different parameters and results:
-      
-      expect_identical(class(x), "list")
-      
-      expect_named(x)
-      
-      expect_identical(
-        names(x),
-        c(
-          "clone_parameters",
-          "simulation_parameters",
-          "sequencing_parameters",
-          "cell_numbers",
-          "simulation_data",
-          "mutation_data"
-        )
-      )
-      
-      
-      # 1) list element clone parameters
-      
-      n_clones = NROW(x$clone_parameters)
-      
-      expect_identical( # rownames are sequentialy numbered clone ids 
-        rownames(x$clone_parameters), 
-        paste0("clone_", seq_len(NROW(x$clone_parameters)))
-      )
-      
-      expect_identical( # names parameters for each clone
-        colnames(x$clone_parameters),
-        c(
-          "birthrates",
-          "deathrates",
-          "mutation_rates",
-          "clone_start_times",
-          "fathers"
-        )
-      )
-      
-      
-      # 2) list element simulation parameters
-      
-      expect_vector(x$simulation_parameters)
-      
-      expect_identical(
-        names(x$simulation_parameters), 
-        c(
-          "simulation_end_time", 
-          "seed"
-          )
-      )
-      
-      
-      # 3) list element sequencing parameters
-      
-      expect_vector(x$sequencing_parameters)
-      
-      expect_identical(
-        names(x$sequencing_parameters),
-        c(
-          "number_clonal_mutations",
-          "purity",
-          "min_vaf",
-          "depth",
-          "depth_model"
-        )
-      )
-      
-      
-      # 4) list element cell numbers
-      
-      expect_vector(x$cell_numbers)
-      
-      expect_length(x$cell_numbers, NROW(x$clone_parameters))
-      
-      expect_identical(
-        names(x$cell_numbers),
-        rownames(x$clone_parameters)
-      )
-        
-      
-      # 5) list element simulation data
-      
-      expect_vector(x$simulation_data)
-      
-      expect_identical(
-        names(x$simulation_data),
-        c(
-          "time",
-          "reactions"
-        )
-      )
-      
-      # basic mutation properties:
-      expect_true(all(x$simulation_data>0))
-      
-      
-      # 6) list element mutation data
-      
-      expect_true(is.data.frame(x$mutation_data))
-      
-      expect_identical(
-        colnames(x$mutation_data),
-        c(
-          "clone",
-          "alt",
-          "depth",
-          "id"
-        )
-      )
-      
-      # basic mutation properties:
-      expect_true(all(x$mutation_data$alt>0))
-      expect_true(all(x$mutation_data$depth>0))
-      expect_true(all(x$mutation_data$alt<=x$mutation_data$depth))
-      
-    }
-  
-  lapply(tested_simulations, test_object_structure)
+  lapply(tested_simulations, validate_temulator_result_object)
   expect_invisible(simulateTumour(simulation_end_time=1e4))
   
 })
@@ -188,12 +65,12 @@ test_that("reproducibility of simulations", {
   
   calculate_repoducible_checksum = 
     function(x) {
+      class(x) = "list" # revert to the old class type
       x$mutation_data$id = NULL
       x$mutation_data$clone = NULL
       return(digest::sha1(x))
     }
   
-  lapply(tested_parameter_sets, test_reproducibility)
   
   checksums = sapply(tested_simulations, calculate_repoducible_checksum)
   expect_equal(as.character(checksums), names(checksums))
@@ -256,13 +133,6 @@ test_that("results are reasonable", {
 
 
 test_that("simulations can be interupted", {
-  
-  calculate_repoducible_checksum = 
-    function(x) {
-      x$mutation_data$id = NULL
-      x$mutation_data$clone = NULL
-      return(digest::sha1(x))
-    }
   
   params = 
     data.frame(

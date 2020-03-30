@@ -43,12 +43,12 @@ simulateTumour(
 
 \item{depth}{Sequencing depth}
 
-\item{depth_model}{Number specificing the distribution of the sequencing depth to use (1:  poisson, 2: overdispersed beta binomial (default), 3: fixed)}
+\item{depth_model}{Number specificing the distribution of the sequencing depth to use (0: no sequencing, 1:  poisson, 2: overdispersed beta binomial (default), 3: fixed)}
 
 \item{verbose}{Print progress?}
 }
 \value{
-List containing i) properties of the subclones ('clone_parameters'), ii) the main simulation parameters ('simulation_parameters'), iii) the sequencing simulation parameters ('sequencing_parameters'), iv) the final population structure ('cell_numbers'), and v) the simulated mutation data.
+A temulator_result_object.
 }
 \description{
 Main function used to produce a simulation

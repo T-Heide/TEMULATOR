@@ -7,18 +7,15 @@ Author: Timon Heide
 Maintainer: Timon Heide <timon.heide@icr.ac.uk>
 Description: Simulates a tumour as a stochastic branching process and generates synthetic next-generation sequencing data from the resulting population.
 License: GPL-3
-Imports: Rcpp (>= 0.12.12), tibble, methods
+Imports: Rcpp (>= 0.12.12), tibble, methods, testthat (>= 2.1.0), ggplot2, dplyr
 LinkingTo: Rcpp, BH, RcppProgress
-Depends: 
+Depends: R (>= 3.5.0)
 Suggests: 
     covr,
-    testthat (>= 2.1.0),
     digest,
     knitr,
     rmarkdown,
-    dplyr, 
-    cowplot, 
-    ggplot2
+    cowplot
 RoxygenNote: 7.0.2
 VignetteBuilder: knitr
 

@@ -14,7 +14,7 @@
 #' @param depth_model Number specificing the distribution of the sequencing depth to use (0: no sequencing, 1:  poisson, 2: overdispersed beta binomial (default), 3: fixed) 
 #' @param verbose Print progress?
 #'
-#' @return List containing i) properties of the subclones ('clone_parameters'), ii) the main simulation parameters ('simulation_parameters'), iii) the sequencing simulation parameters ('sequencing_parameters'), iv) the final population structure ('cell_numbers'), and v) the simulated mutation data.
+#' @return A temulator_result_object.
 #' @export
 #'
 #' @examples 
@@ -112,6 +112,8 @@ simulateTumour =
       simulation_data=sim_data,
       mutation_data = mutation_data
     )
+  
+  class(return) = "temulator_result_object"
   
   invisible(return)
   
