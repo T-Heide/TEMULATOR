@@ -12,8 +12,8 @@ assign_mutation_label = function(d) {
   # group of cell types in which a mutation occures (i.e. clone clusters)
   # 0 means multiple (i.e. selected)
   c_group = d$clone
-  c_group = if_else(c_group == 0, 0, c_group - min(c_group[c_group != 0]) + 1)
-  
+  c_group = if_else(c_group == 0, 1, c_group - min(c_group[c_group != 0]) + 2)
+  c_group[f_group == 0] = 0
   
   # f_ids of clonal cluster for each sub linage
   #f_group_clonal = tapply(f_group, c_group, min)
@@ -23,8 +23,13 @@ assign_mutation_label = function(d) {
 
 
 
+#' Validates a TEMULATOR result object
+#'
+#' @param x object of class 'temulator_result_object'.
+#'
+#' @return TRUE if successfull. Throws an error on failure.
 validate_temulator_result_object = 
-  function(x, ...) {
+  function(x) {
     
     # returned structure is a named list
     # containing the different parameters and results:
@@ -146,6 +151,12 @@ validate_temulator_result_object =
 
 
 
+#' Print method for TEMULATOR result object
+#'
+#' @param x object of class 'temulator_result_object'.
+#' @param ... unused.
+
+#'
 print.temulator_result_object = function(x, ...) {
   
   cat ("[ TEMULATOR result object ]\n\n")
@@ -192,14 +203,14 @@ print.temulator_result_object = function(x, ...) {
   cat("\n")
   cat("  -> Call get_sequencing_data(x) to retrieve these.\n\n")
   
+  invisible(NULL)
 }
 
-#' Plot Method for TEMULATOR result object
-
+#' Plot method for TEMULATOR result object
 #'
 #' @param x object of class 'temulator_result_object'.
 #' @param quite logical indicating if result should be plotted.
-#' @param ... 
+#' @param ... additional parameters passed to assign_mutation_label. 
 #'
 #' @return A ggplot object.
 plot.temulator_result_object = function(x, quite=FALSE, ...) {
@@ -281,6 +292,12 @@ plot.temulator_result_object = function(x, quite=FALSE, ...) {
 get_sequencing_data =
   function(x) UseMethod("get_sequencing_data")
 
+#' Gets sequencing data from a TEMULATOR result object
+#'
+#' @param x object of class 'temulator_result_object'.
+#' @param ... additional parameters passed to assign_mutation_label. 
+#' 
+#' @return tibble object
 get_sequencing_data.temulator_result_object = 
   function(x, ...) {
       x$mutation_data %>% 
@@ -294,7 +311,12 @@ get_clone_frequency =
   function(x) UseMethod("get_clone_frequency")
 
 
+#' Gets clone fractions from a TEMULATOR result object
+#'
+#' @param x object of class 'temulator_result_object'.
+#'
+#' @return a named numeric vector
 get_clone_frequency.temulator_result_object =
-  function(x, ...) {
+  function(x) {
     x$cell_numbers/sum(x$cell_numbers)
   }

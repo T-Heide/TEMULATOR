@@ -30,7 +30,7 @@ theme_set(theme_cowplot())
 # fixed parameters, a neutral tumour:
 fixed_clone_params = data.frame(
   birthrate = 1,
-  mutationrate = 0,
+  mutationrate = 1,
   start_time = 0,
   father = 0
 )
@@ -92,7 +92,7 @@ all_results %>%
 # fixed parameters, a neutral tumour:
 fixed_clone_params = data.frame(
   birthrate = c(1, 1.3),
-  mutationrate = c(0, 0),
+  mutationrate = c(1, 1),
   father = c(0, 0),
   deathrate = c(0,0)
 )

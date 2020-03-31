@@ -15,7 +15,9 @@ Suggests:
     digest,
     knitr,
     rmarkdown,
-    cowplot
+    cowplot,
+    gridExtra,
+    grid
 RoxygenNote: 7.0.2
 VignetteBuilder: knitr
 

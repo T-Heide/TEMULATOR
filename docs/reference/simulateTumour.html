@@ -100,6 +100,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/MOBSTER_simulations.html">Non spatial MOBSTER simulations</a>
+    </li>
+    <li>
       <a href="../articles/time_series.html">Time series data</a>
     </li>
   </ul>
@@ -194,7 +197,7 @@
     </tr>
     <tr>
       <th>depth_model</th>
-      <td><p>Number specificing the distribution of the sequencing depth to use (1:  poisson, 2: overdispersed beta binomial (default), 3: fixed)</p></td>
+      <td><p>Number specificing the distribution of the sequencing depth to use (0: no sequencing, 1:  poisson, 2: overdispersed beta binomial (default), 3: fixed)</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -204,7 +207,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List containing i) properties of the subclones ('clone_parameters'), ii) the main simulation parameters ('simulation_parameters'), iii) the sequencing simulation parameters ('sequencing_parameters'), iv) the final population structure ('cell_numbers'), and v) the simulated mutation data.</p>
+    <p>A temulator_result_object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>simulateTumour</span>()</div></pre>
