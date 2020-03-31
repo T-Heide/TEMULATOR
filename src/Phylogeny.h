@@ -74,9 +74,7 @@ class PhylogenyNode {
     PhylogenyNode* UpNode() const;
     PhylogenyNode* LeftNode() const;
     PhylogenyNode* RightNode() const;
-    int SampleNode(std::vector <int>&, std::vector <double>&, double, double, int, int, int) const;
     int SampleNode(std::vector <int>&, std::vector <int>& , std::vector <int>&, std::vector <std::string>&, double, double, int, int, int);
-    int SampleNode(std::ofstream&, double, double, int, int, int) const;
     int TypeId() const;
 
     // Setters:
@@ -86,11 +84,7 @@ class PhylogenyNode {
     void LeftNode(PhylogenyNode*);
     void RightNode(PhylogenyNode*);
     void TypeId(int);
-
-    // Output:
-    void Print() const;
-    void PrintAncestry() const;
-
+    
 };
 
 #endif // PHYLOGENY_H

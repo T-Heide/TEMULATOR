@@ -85,26 +85,3 @@ void CellType::DeregisterMember(Cell* pCell){
   mpMembers.pop_back();
   mNumMembers--; // Decrease the population count
 }
-
-// Print functions:
-void CellType::Print() const {
-  Rcpp::Rcout << std::endl;
-  Rcpp::Rcout << "########## Cell type ##########" << std::endl;
-  Rcpp::Rcout << "  ID: " << mId << std::endl;
-  Rcpp::Rcout << "  Birth rate: " << mBirthRate << std::endl;
-  Rcpp::Rcout << "  Alpha: " << mAlpha << std::endl;
-  Rcpp::Rcout << "  Members: " << mNumMembers << std::endl;
-  Rcpp::Rcout << "###############################" << std::endl;
-}
-
-void CellType::PrintAllMembers() const {
-  Rcpp::Rcout << std::endl;
-  Rcpp::Rcout << "#### Cell type members ########" << std::endl;
-  Rcpp::Rcout << "  ID:" << mId << std::endl;
-  Rcpp::Rcout << std::endl;
-  for(std::vector<Cell*>::size_type i = 0; i != mpMembers.size(); i++) {
-    Rcpp::Rcout << "  Member " << i << ": " << std::endl;
-    Rcpp::Rcout << "    " << mpMembers[i]->Id() << std::endl;
-  }
-  Rcpp::Rcout << "###############################" << std::endl;
-}

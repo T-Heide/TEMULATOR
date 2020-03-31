@@ -238,27 +238,6 @@ CellType* Universe::NextReaction(long double* r_delta_time, int* action) const{
   return(mpTypes[index_minimum]);
 }
 
-bool Universe::Sample(std::vector <int> &clone , std::vector <double>& vaf, double min_vaf, double purity, double avg_depth, int depth_model) const {
-
-  // Determine total number of cells:
-  int ncells = 0;
-  for (std::vector<CellType*>::size_type i = 0; i < mpTypes.size(); i++){
-    ncells += mpTypes[i]->NumMembers();
-  }
-
-  // Traverse the Phylogenies:
-  for (std::vector<CellType*>::size_type i = 0; i < mpPhylogenies.size(); i++){
-    mpPhylogenies[i]->Root()->SampleNode(clone, vaf,
-                                         min_vaf,
-                                         purity,
-                                         avg_depth,
-                                         depth_model,
-                                         ncells);
-  }
-
-  return true;
-}
-
 
 Rcpp::DataFrame Universe::SampleRcpp(double min_vaf, double purity, double depth, int depth_model) const {
   
@@ -311,7 +290,6 @@ Rcpp::DataFrame Universe::SampleRcpp(double min_vaf, double purity, double depth
 }
 
 
-
 bool Universe::Sample(std::vector <int> &clone,
                       std::vector <int> &alt,
                       std::vector <int> &depth,
@@ -343,34 +321,6 @@ bool Universe::Sample(std::vector <int> &clone,
     Rcpp::Rcerr << "sum_cells != total_cells: " << ncells << " vs " << ncells2 << std::endl;
   }
 
-  return true;
-}
-
-
-bool Universe::SampleToFile(std::string out_file, double min_vaf, double purity, double avg_depth, int depth_model) const {
-
-  std::ofstream ostream(out_file);
-  if (ostream.is_open()) {
-    ostream << "VAF\tALT\tDP\tCLONE\tTRUE_VAF\tTRUE_CLUSTER" << std::endl;
-
-    // Determine total number of cells:
-    int ncells = 0;
-    for (std::vector<CellType*>::size_type i = 0; i < mpTypes.size(); i++){
-      ncells += mpTypes[i]->NumMembers();
-    }
-
-    // Traverse the Phylogenies:
-    for (std::vector<CellType*>::size_type i = 0; i <mpPhylogenies.size(); i++){
-      mpPhylogenies[i]->Root()->SampleNode(ostream, min_vaf, purity, avg_depth, depth_model, ncells);
-    }
-
-  } else {
-    Rcpp::Rcout << "Error." << std::endl;
-    Rcpp::Rcout << "  Unable to open sequencing output file:" << std::endl;
-    Rcpp::Rcout << "    " << out_file << std::endl;
-    return false;
-  }
-  ostream.close();
   return true;
 }
 
@@ -492,44 +442,3 @@ void Universe::PrintCellTypes() const {
   Rcpp::Rcout << std::endl;
 }
 
-bool Universe::WriteCellCountsToFile(std::string out_file) const {
-  unsigned long sum_cells = 0;
-  char delim = '\t';
-
-  std::ofstream outstream(out_file);
-  if (outstream.is_open()) {
-
-    // Write a header:
-    outstream << "total";
-    for(std::vector<CellType *>::size_type i = 0; i < mpTypes.size(); i++) {
-      outstream << delim << "clone" << i;
-      sum_cells += mpTypes[i]->NumMembers();
-    }
-    outstream << std::endl;
-
-    // Write the cell counts to the next line:
-    outstream << sum_cells;
-    for(std::vector<CellType *>::size_type i = 0; i < mpTypes.size(); i++) {
-      outstream << delim << mpTypes[i]->NumMembers();
-    }
-    outstream << std::endl;
-
-    // Write the expected peak position assuming CN == 2 to the next line:
-    outstream << sum_cells * 0.5 / sum_cells;
-    for(std::vector<CellType *>::size_type i = 0; i < mpTypes.size(); i++) {
-      outstream << delim << std::setprecision(5)
-                << mpTypes[i]->NumMembers() * 0.5 / sum_cells;
-    }
-    outstream << std::endl;
-
-  } else {
-
-    Rcpp::Rcout << "Error." << std::endl;
-    Rcpp::Rcout << "  Unable to open cell count output file:" << std::endl;
-    Rcpp::Rcout << "    " << out_file << std::endl;
-    return false;
-
-  }
-  outstream.close();
-  return true;
-}

@@ -150,18 +150,6 @@ void Cell::MutateCellFixedNumber(int new_muts){
 }
 
 
-
-void Cell::Print() const {
-  Rcpp::Rcout << std::endl;
-  Rcpp::Rcout << "############ Cell ##############" << std::endl;
-  Rcpp::Rcout << "   ID: " << mId << std::endl;
-  Rcpp::Rcout << "   Location:" << std::endl;
-  Rcpp::Rcout << "       Universe: " << mpUniverse << std::endl;
-  Rcpp::Rcout << "   Type: " << mpType->Id() << std::endl;
-  Rcpp::Rcout << "       Birth rate: " << mpType->Birthrate() << std::endl;
-  Rcpp::Rcout << "###############################" << std::endl;
-}
-
 void Cell::DoAction(int *action) {
   switch(*action) {
     case 1: // Action 'Divide'

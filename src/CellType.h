@@ -63,9 +63,6 @@ class CellType {
     void DeregisterMember(Cell*);
     void Alpha(double new_alpha){mAlpha=new_alpha;};
 
-    // Print functions:
-    void Print() const;
-    void PrintAllMembers() const;
 };
 
 #endif // CELLTYPE_H

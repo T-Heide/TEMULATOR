@@ -76,11 +76,8 @@ class Universe {
     std::vector <unsigned int> CellCounts() const;
     
     class CellType* NextReaction(long double*, int*) const;
-    bool Sample(std::vector <int>&, std::vector <double>&, double, double, double, int) const;
     bool Sample(std::vector <int>&, std::vector <int>&, std::vector <int> &, std::vector <std::string>&, double, double, double, int) const;
     Rcpp::DataFrame SampleRcpp(double, double, double, int ) const;
-    
-    bool SampleToFile(std::string, double, double, double, int) const;
     unsigned int get_SimulationEndTime() const;
       
     
@@ -91,16 +88,10 @@ class Universe {
     void RegisterType(CellType *);
     void set_SimulationEndTime(unsigned int);
     
-    
 
     // Output Functions:
     void Print() const;
     void PrintCellTypes() const;
-    bool WriteCellCountsToFile(std::string) const;
-
-    //void TypesToCsvFile(std::string, int tum_id);
-    //void PutNodesToStream(PhylogenyNode*, std::ofstream&);
-    //void PhylogeniesToFile(std::string, int tum_id);
 
 };
 

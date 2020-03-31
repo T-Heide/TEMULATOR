@@ -72,7 +72,6 @@ class Cell {
     void MutateCell(double);
     void MutateCellFixedNumber(int);
 
-    void Print() const;
     void DoAction(int*);
     void Divide();
 };
