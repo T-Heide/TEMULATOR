@@ -145,7 +145,8 @@
   <span class='kw'>min_vaf</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
   <span class='kw'>depth</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>depth_model</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>subset_fractions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -203,6 +204,10 @@
       <th>verbose</th>
       <td><p>Print progress?</p></td>
     </tr>
+    <tr>
+      <th>subset_fractions</th>
+      <td><p>Optional, Numeric vector specificing fraction variants are subset to.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -210,7 +215,8 @@
     <p>A temulator_result_object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>simulateTumour</span>()</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>simulateTumour</span>()
+<span class='fu'>simulateTumour</span>(<span class='kw'>subset_fractions</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"WES"</span><span class='kw'>=</span><span class='fl'>0.03</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

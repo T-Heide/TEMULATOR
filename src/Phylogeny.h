@@ -47,7 +47,6 @@ class PhylogenyRoot {
 
 class PhylogenyNode {
   const unsigned long mId;
-  static unsigned long msNextId; // Increments from one.
 
   Cell* mpCell;
   int mTypeId;
@@ -62,7 +61,8 @@ class PhylogenyNode {
     // Constructors:m
     PhylogenyNode(Cell*);
     PhylogenyNode(Cell*, PhylogenyNode*);
-
+    static unsigned long msNextId; // Increments from one.
+    
     //Destructor
     ~PhylogenyNode();
 

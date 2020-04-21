@@ -39,7 +39,7 @@ validate_temulator_result_object =
     testthat::expect_named(x)
     
     testthat::expect_identical(
-      names(x),
+      names(x)[1:6],
       c(
         "clone_parameters",
         "simulation_parameters",
@@ -49,6 +49,10 @@ validate_temulator_result_object =
         "mutation_data"
       )
     )
+    
+    if (length(x) > 7) {
+      testthat::expect_identical(names(x)[7], "mutation_subsets")
+    }
     
     
     # 1) list element clone parameters
@@ -131,22 +135,27 @@ validate_temulator_result_object =
     
     # 6) list element mutation data
     
-    testthat::expect_true(is.data.frame(x$mutation_data))
+    check_mdata = function(d) {
+      
+      # data frame
+      testthat::expect_true(is.data.frame(d))
+      testthat::expect_identical(colnames(d), c("clone","alt","depth","id"))
+      
+      # basic mutation properties:
+      testthat::expect_true(all(d$alt > 0))
+      testthat::expect_true(all(d$depth > 0))
+      testthat::expect_true(all(d$alt <= d$depth))
+    }
     
-    testthat::expect_identical(
-      colnames(x$mutation_data),
-      c(
-        "clone",
-        "alt",
-        "depth",
-        "id"
-      )
-    )
+    check_mdata(x$mutation_data)
     
-    # basic mutation properties:
-    testthat::expect_true(all(x$mutation_data$alt>0))
-    testthat::expect_true(all(x$mutation_data$depth>0))
-    testthat::expect_true(all(x$mutation_data$alt<=x$mutation_data$depth))
+    if ("mutation_subsets" %in% names(x)) {
+      for (i in seq_along(x$mutation_subsets)) {
+        check_mdata(x$mutation_subsets[[i]])
+      }
+    }
+   
+      
   }
 
 
@@ -201,8 +210,19 @@ print.temulator_result_object = function(x, ...) {
   cat("  # VAF cutoff:", x$sequencing_parameters["min_vaf "], "\n\n")
   print(x$mutation_data)
   cat("\n")
-  cat("  -> Call get_sequencing_data(x) to retrieve these.\n\n")
+  cat("-> Call get_sequencing_data(x) to retrieve these.\n\n")
+  cat("\n")
   
+  if ("mutation_subsets" %in% names(x)) {
+    cat("=> Also", length(x$mutation_subsets), "subset(s):\n")
+    for (j in seq_along(x$mutation_subsets)) {
+      cat("     ", j, ") ", names(x$mutation_subsets)[j]," (idx=", j+1, ")\n", sep="")
+    }
+    cat("\n")
+    cat("-> Call get_sequencing_data(x, idx=i) to retrieve these.\n\n")
+  }
+  
+
   invisible(NULL)
 }
 
@@ -210,7 +230,7 @@ print.temulator_result_object = function(x, ...) {
 #'
 #' @param x object of class 'temulator_result_object'.
 #' @param quite logical indicating if result should be plotted.
-#' @param ... additional parameters passed to assign_mutation_label. 
+#' @param ... additional parameters passed to get_sequencing_data and assign_mutation_label.
 #'
 #' @return A ggplot object.
 plot.temulator_result_object = function(x, quite=FALSE, ...) {
@@ -219,8 +239,7 @@ plot.temulator_result_object = function(x, quite=FALSE, ...) {
   stopifnot(length(quite) == 1)
   
   # mutation data
-  m_data = x$mutation_data %>% mutate(vaf=alt/depth)
-  m_data$label = assign_mutation_label(x$mutation_data, ...)
+  m_data = get_sequencing_data(x, ...)
   
   # cell counts
   n_c = x$cell_numbers
@@ -278,8 +297,7 @@ plot.temulator_result_object = function(x, quite=FALSE, ...) {
       ggtitle(label=main_label, subtitle=sublabel) +
       labs(caption = caption) + 
       theme(plot.caption=element_text(hjust=0)) + 
-      #geom_vline(xintercept=x$sequencing_parameters["min_vaf"], linetype=1) + 
-      xlim(min_vaf, max(m_data$vaf))
+      xlim(0, max(m_data$vaf))
 
   
   # plot the figure and return it invisibliy
@@ -289,25 +307,42 @@ plot.temulator_result_object = function(x, quite=FALSE, ...) {
 }
 
 
-get_sequencing_data =
-  function(x) UseMethod("get_sequencing_data")
+get_sequencing_data = 
+  function(x, ...) UseMethod("get_sequencing_data")
 
 #' Gets sequencing data from a TEMULATOR result object
 #'
 #' @param x object of class 'temulator_result_object'.
+#' @param idx optional index of the mutation dataset to return (see output of print(x)).
 #' @param ... additional parameters passed to assign_mutation_label. 
 #' 
 #' @return tibble object
 get_sequencing_data.temulator_result_object = 
-  function(x, ...) {
-      x$mutation_data %>% 
+  function(x, idx=1, ...) {
+    
+    max_idx = 1
+    if ("mutation_subsets" %in% names(x)) {
+      max_idx = max_idx + length(x$mutation_subsets)
+    }
+    
+    if (!is.numeric(idx)) stop("Index not numeric.")
+    if (!length(idx) == 1) stop("Index not of length 0.")
+    if (!length(idx) <= max_idx & idx > 0) stop("Index out of range.")
+    
+    if (idx == 1) {
+      mdata = x$mutation_data
+    } else {
+      mdata = x$mutation_subsets[[idx - 1]]
+    }
+      
+    mdata %>% 
       mutate(vaf=alt/depth) %>% 
       mutate(label=assign_mutation_label(., ...)) %>% 
       select(alt, depth, vaf, id, label)
   }
 
 
-get_clone_frequency =
+get_clone_frequency = 
   function(x) UseMethod("get_clone_frequency")
 
 
@@ -320,3 +355,4 @@ get_clone_frequency.temulator_result_object =
   function(x) {
     x$cell_numbers/sum(x$cell_numbers)
   }
+  

@@ -17,7 +17,8 @@ simulateTumour(
   min_vaf = 0.01,
   depth = 100,
   depth_model = 2,
-  verbose = FALSE
+  verbose = FALSE,
+  subset_fractions = numeric()
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ simulateTumour(
 \item{depth_model}{Number specificing the distribution of the sequencing depth to use (0: no sequencing, 1:  poisson, 2: overdispersed beta binomial (default), 3: fixed)}
 
 \item{verbose}{Print progress?}
+
+\item{subset_fractions}{Optional, Numeric vector specificing fraction variants are subset to.}
 }
 \value{
 A temulator_result_object.
@@ -55,4 +58,5 @@ Main function used to produce a simulation
 }
 \examples{
 simulateTumour()
+simulateTumour(subset_fractions=c("WES"=0.03))
 }

@@ -13,12 +13,14 @@
 #' @param depth Sequencing depth
 #' @param depth_model Number specificing the distribution of the sequencing depth to use (0: no sequencing, 1:  poisson, 2: overdispersed beta binomial (default), 3: fixed) 
 #' @param verbose Print progress?
+#' @param subset_fractions Optional, Numeric vector specificing fraction variants are subset to.
 #'
 #' @return A temulator_result_object.
 #' @export
 #'
 #' @examples 
 #' simulateTumour()
+#' simulateTumour(subset_fractions=c("WES"=0.03))
 simulateTumour =
   function(birthrates=c(1.0, 1.0),
            deathrates=c(0.2, 0.2),
@@ -33,8 +35,13 @@ simulateTumour =
            min_vaf=0.01,
            depth=100,
            depth_model=2,
-           verbose=FALSE) {
+           verbose=FALSE,
+           subset_fractions=numeric()) {
 
+  stopifnot(is.vector(subset_fractions))
+  stopifnot(is.numeric(subset_fractions))
+  stopifnot(all(subset_fractions > 0 & subset_fractions < 1))
+  
     
   # Put parameters into structures, that are later returned
   sim_params = 
@@ -102,20 +109,45 @@ simulateTumour =
                              "mutation_rates",
                              "clone_start_times",
                              "fathers")
-
-  return = 
+  
+  
+  result_object = 
     list(
       clone_parameters = clone_params,
       simulation_parameters = sim_params,
       sequencing_parameters = seq_params,
       cell_numbers = n_cells,
-      simulation_data=sim_data,
+      simulation_data = sim_data,
       mutation_data = mutation_data
     )
   
-  class(return) = "temulator_result_object"
+  class(result_object) = "temulator_result_object"
   
-  invisible(return)
   
+  
+  # optionally subset the variant set
+  if (length(subset_fractions)) {
+    
+    mut_q = # mutation quantile (hash of variant id, scaled to (0,1])
+      as.character(result_object$mutation_data$id) %>% 
+      sapply(digest::digest, algo="xxhash32", raw=TRUE, seed=seed) %>% 
+      (function(x) as.numeric(paste0("0x", x)) / (2^32))
+    
+    mutation_subsets = 
+      lapply(subset_fractions, function(x) { 
+        result_object$mutation_data[mut_q < x,]
+      })
+    
+    if (is.null(names(mutation_subsets))) { # set names if non given
+      names(mutation_subsets) = as.character(subset_fractions)
+    }
+    
+    result_object[["mutation_subsets"]] = mutation_subsets
+    
+  }
+  
+  
+  
+  invisible(result_object)
 }
 

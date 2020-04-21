@@ -11,7 +11,7 @@
 
 \item{quite}{logical indicating if result should be plotted.}
 
-\item{...}{additional parameters passed to assign_mutation_label.}
+\item{...}{additional parameters passed to get_sequencing_data and assign_mutation_label.}
 }
 \value{
 A ggplot object.

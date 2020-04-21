@@ -126,7 +126,7 @@ bool Universe::RunSimulation(bool verbose)
     
     // Set random seed
     rng.seed(mSeed);
-    
+    PhylogenyNode::msNextId = 0;
     
     // Create and insert a cell of the first type:
     pType = new CellType(mBirthrates[0], mDeathrates[0], mMutationrates[0]);
