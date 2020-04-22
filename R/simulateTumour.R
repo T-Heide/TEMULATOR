@@ -20,7 +20,8 @@
 #'
 #' @examples 
 #' simulateTumour()
-#' simulateTumour(subset_fractions=c("WES"=0.03))
+#' simulateTumour(subset_fractions=c("WES"=0.03)) 
+#' simulateTumour(depth=c(30,50,100)) # three different sequencing depths  
 simulateTumour =
   function(birthrates=c(1.0, 1.0),
            deathrates=c(0.2, 0.2),
@@ -41,8 +42,10 @@ simulateTumour =
   stopifnot(is.vector(subset_fractions))
   stopifnot(is.numeric(subset_fractions))
   stopifnot(all(subset_fractions > 0 & subset_fractions < 1))
-  
-    
+
+  n_seq_parms = list(purity, min_vaf, depth, depth_model) %>% sapply(length)
+  stopifnot(all(n_seq_parms == max(n_seq_parms) | n_seq_parms == 1))
+
   # Put parameters into structures, that are later returned
   sim_params = 
     c(
@@ -61,13 +64,13 @@ simulateTumour =
     )
   
   seq_params =
-    c(
+    data.frame(
       number_clonal_mutations=number_clonal_mutations,
       purity=purity,
       min_vaf=min_vaf,
       depth=depth,
       depth_model=depth_model
-     )
+     ) %>% dplyr::filter(depth_model != 0)
   
   
   # Create simulation object
@@ -90,14 +93,21 @@ simulateTumour =
   if (verbose) simulation$print_cell_types()
   
   
-  # Sample the results:
   n_cells = simulation$cell_counts; names(n_cells) = rownames(clone_params)
   sim_data = c(time=simulation$simulation_time, reactions=simulation$n_reactions)
   
-  if (depth_model != 0) {
-    mutation_data = as_tibble(simulation$sample(min_vaf, purity, depth, depth_model))
-  } else {
-    mutation_data = NULL
+  # Sample the results:
+  mutation_data = list()
+  for (i in seq_len(NROW(seq_params))) {
+    
+    mutation_data[[i]] =
+      simulation$sample(
+        seq_params$min_vaf[i],
+        seq_params$purity[i],
+        seq_params$depth[i],
+        seq_params$depth_model[i]
+      ) %>% as_tibble()
+      
   }
   
   rm(simulation)
@@ -128,25 +138,37 @@ simulateTumour =
   # optionally subset the variant set
   if (length(subset_fractions)) {
     
-    mut_q = # mutation quantile (hash of variant id, scaled to (0,1])
-      as.character(result_object$mutation_data$id) %>% 
-      sapply(digest::digest, algo="xxhash32", raw=TRUE, seed=seed) %>% 
-      (function(x) as.numeric(paste0("0x", x)) / (2^32))
-    
-    mutation_subsets = 
-      lapply(subset_fractions, function(x) { 
-        result_object$mutation_data[mut_q < x,]
-      })
-    
-    if (is.null(names(mutation_subsets))) { # set names if non given
-      names(mutation_subsets) = as.character(subset_fractions)
+    for (i in seq_along(mutation_data)) {
+      
+      mut_q = # mutation quantile (hash of variant id, scaled to (0,1])
+        as.character(result_object$mutation_data[[i]]$id) %>% 
+        sapply(digest::digest, algo="xxhash32", raw=TRUE, seed=seed) %>% 
+        (function(x) as.numeric(paste0("0x", x)) / (2^32))
+      
+      mutation_subsets = 
+        lapply(subset_fractions, function(x) { 
+          result_object$mutation_data[[i]][mut_q < x,]
+        })
+      
+      if (is.null(names(mutation_subsets))) { # set names if non given
+        names(mutation_subsets) = as.character(subset_fractions)
+      }
+      
+      result_object[["mutation_subsets"]][[i]] = mutation_subsets
+      
     }
-    
-    result_object[["mutation_subsets"]] = mutation_subsets
-    
   }
   
   
+  # revert to old structure if only one sample taken
+  if (NROW(result_object$sequencing_parameters) == 1) {
+    
+    result_object$sequencing_parameters = 
+      unlist(result_object$sequencing_parameters)
+    
+    result_object$mutation_data = 
+      result_object$mutation_data[[1]]
+  }
   
   invisible(result_object)
 }

@@ -58,10 +58,11 @@ class PhylogenyNode {
   unsigned int mNumMutsGeneration;
 
   public:
-    // Constructors:m
+    static unsigned long msNextId; // Increments from one.
+    
+    // Constructors:
     PhylogenyNode(Cell*);
     PhylogenyNode(Cell*, PhylogenyNode*);
-    static unsigned long msNextId; // Increments from one.
     
     //Destructor
     ~PhylogenyNode();

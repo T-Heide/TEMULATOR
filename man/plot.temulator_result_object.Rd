@@ -4,12 +4,14 @@
 \alias{plot.temulator_result_object}
 \title{Plot method for TEMULATOR result object}
 \usage{
-\method{plot}{temulator_result_object}(x, quite = FALSE, ...)
+\method{plot}{temulator_result_object}(x, idx = 1, quite = FALSE, ...)
 }
 \arguments{
-\item{x}{object of class 'temulator_result_object'.}
+\item{x}{object of class 'temulator_result_object'.#'}
 
-\item{quite}{logical indicating if result should be plotted.}
+\item{idx}{optional, index of the mutation dataset to plot (see output of print(x)).}
+
+\item{quite}{optional, logical indicating if result should be plotted.}
 
 \item{...}{additional parameters passed to get_sequencing_data and assign_mutation_label.}
 }

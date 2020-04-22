@@ -147,15 +147,23 @@ validate_temulator_result_object =
       testthat::expect_true(all(d$alt <= d$depth))
     }
     
-    check_mdata(x$mutation_data)
-    
-    if ("mutation_subsets" %in% names(x)) {
+    if (!is.data.frame(x$sequencing_parameters)) { # old structure, one sequencing dataset
+      check_mdata(x$mutation_data)
+    } else {
+      lapply(x$mutation_data, check_mdata)
+    }
+      
+      
+    if ("mutation_subsets" %in% names(x)) { # optional subsets of sequencing datasets
       for (i in seq_along(x$mutation_subsets)) {
-        check_mdata(x$mutation_subsets[[i]])
+        if (!is.data.frame(x$sequencing_parameters)) { # old structure, one sequencing dataset
+          check_mdata(x$mutation_subsets[[i]])
+        } else {
+          lapply(x$mutation_subsets[[i]], check_mdata)
+        }
       }
     }
-   
-      
+    
   }
 
 
@@ -199,28 +207,52 @@ print.temulator_result_object = function(x, ...) {
   cat(" -> Total reactions:", x$simulation_data["reactions"], "\n")
   cat("\n\n")
   
-  
-  cat("> Sequencing data:\n\n")
-  cat("  # Clonal mutations:", x$sequencing_parameters["number_clonal_mutations"], "\n")
-  cat("  # Purity:", x$sequencing_parameters["purity "], "\n")
-  cat("  # Depth:", x$sequencing_parameters["depth"], "\n")
-  dm = as.character(x$sequencing_parameters["depth_model"])
-  dm_label = c("1"="poisson distributed", "2"="overdispersed beta binomial", "3"="constant depth")[dm]
-  cat("  # Depth model:", dm_label, "\n")
-  cat("  # VAF cutoff:", x$sequencing_parameters["min_vaf "], "\n\n")
-  print(x$mutation_data)
-  cat("\n")
-  cat("-> Call get_sequencing_data(x) to retrieve these.\n\n")
-  cat("\n")
-  
-  if ("mutation_subsets" %in% names(x)) {
-    cat("=> Also", length(x$mutation_subsets), "subset(s):\n")
-    for (j in seq_along(x$mutation_subsets)) {
-      cat("     ", j, ") ", names(x$mutation_subsets)[j]," (idx=", j+1, ")\n", sep="")
-    }
-    cat("\n")
-    cat("-> Call get_sequencing_data(x, idx=i) to retrieve these.\n\n")
+  if (is.data.frame(x$sequencing_parameters)) {
+    n_datasets = NROW(x$sequencing_parameters)
+  } else {
+    n_datasets = as.numeric(!is.null(x$mutation_data))
   }
+  
+  
+  if (n_datasets) {
+    cat("> Sequencing data:\n\n")
+    
+    if ("mutation_subsets" %in% names(x)) {
+      n_subsets = length(x$mutation_subsets[[1]])
+    } else {
+      n_subsets = 0
+    }
+
+    for (j in seq_len(n_datasets)) {
+      
+      idx = (j - 1) * (n_subsets + 1) + 1
+      cat("", j, ")\n\n", sep="")
+      cat("  # Clonal mutations:", x$sequencing_parameters[["number_clonal_mutations"]][j], "\n")
+      cat("  # Purity:", x$sequencing_parameters[["purity"]][j], "\n")
+      cat("  # Depth:", x$sequencing_parameters[["depth"]][j], "\n")
+      dm = as.character(x$sequencing_parameters[["depth_model"]][j])
+      dm_label = c("1"="poisson distributed", "2"="overdispersed beta binomial", "3"="constant depth")[dm]
+      cat("  # Depth model:", dm_label, "\n")
+      cat("  # VAF cutoff:", x$sequencing_parameters[["min_vaf"]][j], "\n\n")
+      print(get_sequencing_data(x, idx))
+      cat("\n")
+      cat("-> Call get_sequencing_data(x, idx=", idx, ") to retrieve these.\n\n", sep="")
+      cat("\n")
+      
+      if ("mutation_subsets" %in% names(x)) {
+        
+        cat("=> Also", n_subsets, "subset(s):\n")
+        for (k in seq_len(n_subsets)) {
+          cat("     ", k, ") ", names(x$mutation_subsets[[j]])[k]," (idx=", idx + k, ")\n", sep="")
+        }
+        cat("\n")
+        cat("-> Call get_sequencing_data(x, idx=i) to retrieve these.\n\n")
+      }
+    }
+    
+  }
+ 
+
   
 
   invisible(NULL)
@@ -228,18 +260,29 @@ print.temulator_result_object = function(x, ...) {
 
 #' Plot method for TEMULATOR result object
 #'
-#' @param x object of class 'temulator_result_object'.
-#' @param quite logical indicating if result should be plotted.
+#' @param x object of class 'temulator_result_object'.#' 
+#' @param idx optional, index of the mutation dataset to plot (see output of print(x)).
+#' @param quite optional, logical indicating if result should be plotted.
 #' @param ... additional parameters passed to get_sequencing_data and assign_mutation_label.
 #'
 #' @return A ggplot object.
-plot.temulator_result_object = function(x, quite=FALSE, ...) {
+plot.temulator_result_object = function(x, idx=1, quite=FALSE, ...) {
   
   stopifnot(is.logical(quite))
   stopifnot(length(quite) == 1)
   
   # mutation data
-  m_data = get_sequencing_data(x, ...)
+  m_data = get_sequencing_data(x, idx=idx, ...)
+  
+  
+  # index of row in sequencing_parameters
+  if ("mutation_subsets" %in% names(x)) {
+    n_subsets = length(x$mutation_subsets[[1]])
+  } else {
+    n_subsets = 0
+  }
+  idx_s = (idx-1) %/% (n_subsets+1) + 1
+  
   
   # cell counts
   n_c = x$cell_numbers
@@ -250,9 +293,6 @@ plot.temulator_result_object = function(x, quite=FALSE, ...) {
   c_data = c_data[names(which(n_c > 0)),] # drop those without cells
   n_clones = NROW(c_data)
   
-  # 
-  min_vaf = x$sequencing_parameters["min_vaf"]
-
   
   # labels
   selection = sum(!duplicated(c_data[,c("birthrates","deathrates","mutation_rates")])) > 1
@@ -269,9 +309,10 @@ plot.temulator_result_object = function(x, quite=FALSE, ...) {
   dr = paste0("(", paste0(c_data$deathrates, collapse=","), ")")
   t = paste0("(", paste0(c_data$clone_start_times, collapse=","), ")")
   t_end = x$simulation_parameters["simulation_end_time"]
-  C = x$sequencing_parameters["depth"]
-  p = x$sequencing_parameters["purity"]
-  N_clonal = x$sequencing_parameters["number_clonal_mutations"]
+  C = x$sequencing_parameters[["depth"]][idx_s]
+  p = x$sequencing_parameters[["purity"]][idx_s]
+  min_vaf = x$sequencing_parameters[["min_vaf"]][idx_s]
+  N_clonal = x$sequencing_parameters[["number_clonal_mutations"]][idx_s]
   caption = bquote(lambda==.(br)*","~mu==.(dr)*","~m==.(mr)*","~t==.(t)*";"~t[end]==.(t_end)*","~bar(C)==.(C)*","~N[clonal]==.(N_clonal))
   
     
@@ -281,7 +322,7 @@ plot.temulator_result_object = function(x, quite=FALSE, ...) {
   } else {
     cl_frac = c(clonal=1)
   }
-  cl_locations = cl_frac * x$sequencing_parameters["purity"] / 2
+  cl_locations = cl_frac * x$sequencing_parameters[["purity"]][idx_s] / 2
   cl_data = data.frame(clone=names(cl_locations), vaf=cl_locations)
   
   
@@ -320,19 +361,36 @@ get_sequencing_data =
 get_sequencing_data.temulator_result_object = 
   function(x, idx=1, ...) {
     
-    max_idx = 1
     if ("mutation_subsets" %in% names(x)) {
-      max_idx = max_idx + length(x$mutation_subsets)
+      n_subsets = length(x$mutation_subsets[[1]])
+    } else {
+      n_subsets = 0
     }
     
+    if (!is.data.frame(x$sequencing_parameters)) { # old structure, one sequencing dataset
+      x$mutation_data = list(x$mutation_data)      # convert to new structure
+      if ("mutation_subsets" %in% names(x)) { 
+        for (i in seq_along(x$mutation_subsets)) {
+          x$mutation_subsets = list(x$mutation_subsets)
+        }
+      }
+    }
+    
+    
+    n_datasets = length(x$mutation_data)
+    max_idx = (n_subsets + 1) * n_datasets
+  
     if (!is.numeric(idx)) stop("Index not numeric.")
     if (!length(idx) == 1) stop("Index not of length 0.")
     if (!length(idx) <= max_idx & idx > 0) stop("Index out of range.")
     
-    if (idx == 1) {
-      mdata = x$mutation_data
+    idx_a = (idx-1) %/% (n_subsets+1) + 1
+    idx_b = (idx-1) %% (n_subsets+1)
+    
+    if (idx_b == 0) {
+      mdata = x$mutation_data[[idx_a]]
     } else {
-      mdata = x$mutation_subsets[[idx - 1]]
+      mdata = x$mutation_subsets[[idx_a]][[idx_b]]
     }
       
     mdata %>% 

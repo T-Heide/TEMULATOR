@@ -126,6 +126,7 @@ bool Universe::RunSimulation(bool verbose)
     
     // Set random seed
     rng.seed(mSeed);
+    mRngState = rng;
     PhylogenyNode::msNextId = 0;
     
     // Create and insert a cell of the first type:
@@ -149,10 +150,11 @@ bool Universe::RunSimulation(bool verbose)
     mNextClone++;
     
   } else {
+    rng = mRngState; // restore rng state
     if (verbose) Rcpp::Rcout << "Restarting stimulation:" << std::endl;
   }
   
-
+  
   // Run till limit of universe has been reached:
   Progress p(mSimulationEndTime-mNumberOfReactions, verbose);
   
@@ -188,11 +190,13 @@ bool Universe::RunSimulation(bool verbose)
     
     p.increment(); 
     if (Progress::check_abort()) {
+      mRngState = rng;
       return false;
     }
     
   } // stop running after reaching limit
 
+  mRngState = rng;
   return true;
 }
 
@@ -240,6 +244,18 @@ CellType* Universe::NextReaction(long double* r_delta_time, int* action) const{
 
 
 Rcpp::DataFrame Universe::SampleRcpp(double min_vaf, double purity, double depth, int depth_model) const {
+  rng = mRngState; // restore rng state at simulation end.
+  return Sample(min_vaf, purity, depth, depth_model);
+}
+
+
+Rcpp::DataFrame Universe::SampleSeededRcpp(double min_vaf, double purity, double depth, int depth_model, int seed) const {
+  rng.seed(seed); // set rng state with seed
+  return Sample(min_vaf, purity, depth, depth_model);
+}
+
+
+Rcpp::DataFrame Universe::Sample(double min_vaf, double purity, double depth, int depth_model) const {
   
   // Check input:
   if (min_vaf>=1 || min_vaf<0) {
@@ -254,7 +270,7 @@ Rcpp::DataFrame Universe::SampleRcpp(double min_vaf, double purity, double depth
     Rcpp::stop("Argument depth should be in the interval (0,Inf].");
   }
   
-  
+
   // Sampling:
   std::vector <int> clone_mutation;
   std::vector <int> alt_mutation;

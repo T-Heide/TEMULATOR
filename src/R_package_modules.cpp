@@ -35,7 +35,8 @@ RCPP_MODULE(temulator_module) {
     
   .method("run", &Universe::RunSimulation)
   .method("sample", &Universe::SampleRcpp)
-    
+  .method("sample_seeded", &Universe::SampleSeededRcpp)
+
   .property("cell_counts", &Universe::CellCounts)
   .property("simulation_time", &Universe::Time)
   .property("n_reactions", &Universe::Reactions)

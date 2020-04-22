@@ -37,31 +37,10 @@ tested_simulations =
 test_that("object structure", {
   lapply(tested_simulations, validate_temulator_result_object)
   expect_invisible(simulateTumour(simulation_end_time=1e4))
-  
 })
 
 
 test_that("reproducibility of simulations", {
-  
-  test_reproducibility = 
-    function(params) {
-      
-      sim_results =
-        lapply(1:4, function(i) # 4 repeated simulations
-          do.call(simulateTumour, params)) %>%
-        
-        lapply(function(x) {
-          x$mutation_data$id = NULL
-          x$mutation_data$clone = NULL
-          return(x)
-        }) # drop mutation ids these differ ...
-      
-      
-      for (i in seq_along(sim_results)) { # compare all against the first 
-        expect_true(all.equal(sim_results[[1]], sim_results[[i]]))
-      }
-      
-    }
   
   calculate_repoducible_checksum = 
     function(x) {

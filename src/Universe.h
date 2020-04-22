@@ -28,6 +28,7 @@ class Shape;
 // Includes: ///////////////////////////////////////////////////////////////////
 #include <vector>
 #include "Rcpp.h"
+#include <boost/random.hpp>
 
 // Universe ////////////////////////////////////////////////////////////////////
 
@@ -55,7 +56,8 @@ class Universe {
     // other objects
     std::vector<CellType*> mpTypes;
     std::vector<PhylogenyRoot*> mpPhylogenies;
-
+    boost::random::mt19937_64 mRngState;
+    
   public:
     // Constructor:
     Universe(
@@ -77,7 +79,9 @@ class Universe {
     
     class CellType* NextReaction(long double*, int*) const;
     bool Sample(std::vector <int>&, std::vector <int>&, std::vector <int> &, std::vector <std::string>&, double, double, double, int) const;
-    Rcpp::DataFrame SampleRcpp(double, double, double, int ) const;
+    Rcpp::DataFrame SampleRcpp(double, double, double, int) const;
+    Rcpp::DataFrame SampleSeededRcpp(double, double, double, int, int) const;
+    Rcpp::DataFrame Sample(double, double, double, int) const;
     unsigned int get_SimulationEndTime() const;
       
     
