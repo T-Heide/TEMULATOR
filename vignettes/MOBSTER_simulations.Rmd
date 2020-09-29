@@ -2,7 +2,7 @@
 title: "Non spatial MOBSTER simulations"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{MOBSTER_simulations}
+  %\VignetteIndexEntry{Non spatial MOBSTER simulations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
