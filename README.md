@@ -1,6 +1,5 @@
 # TEMULATOR <img src='man/figures/logo.png' align="right" height="139" />
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/T-Heide/TEMULATOR.svg?branch=master)](https://travis-ci.com/T-Heide/TEMULATOR)
 [![R-CMD-check](https://github.com/T-Heide/TEMULATOR/workflows/R-CMD-check/badge.svg)](https://github.com/T-Heide/TEMULATOR/actions)
 [![codecov](https://codecov.io/gh/T-Heide/TEMULATOR/branch/master/graph/badge.svg)](https://codecov.io/gh/T-Heide/TEMULATOR)
 <!-- badges: end -->
