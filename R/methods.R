@@ -139,12 +139,14 @@ validate_temulator_result_object =
       
       # data frame
       testthat::expect_true(is.data.frame(d))
-      testthat::expect_identical(colnames(d), c("clone","alt","depth","id"))
-      
+      testthat::expect_identical(colnames(d), c("clone","alt","depth","id","ccf"))
+
       # basic mutation properties:
       testthat::expect_true(all(d$alt > 0))
       testthat::expect_true(all(d$depth > 0))
       testthat::expect_true(all(d$alt <= d$depth))
+      testthat::expect_true(all(between(d$ccf, 0, 1)))
+
     }
     
     if (!is.data.frame(x$sequencing_parameters)) { # old structure, one sequencing dataset

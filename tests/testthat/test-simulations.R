@@ -55,6 +55,7 @@ test_that("reproducibility of simulations", {
       class(x) = "list" # revert to the old class type
       x$mutation_data$id = NULL
       x$mutation_data$clone = NULL
+      x$mutation_data$ccf = NULL
       return(x)
     }
   

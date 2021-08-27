@@ -75,7 +75,7 @@ class PhylogenyNode {
     PhylogenyNode* UpNode() const;
     PhylogenyNode* LeftNode() const;
     PhylogenyNode* RightNode() const;
-    int SampleNode(std::vector <int>&, std::vector <int>& , std::vector <int>&, std::vector <std::string>&, double, double, int, int, int);
+    int SampleNode(std::vector <int>&, std::vector <int>& , std::vector <int>&, std::vector <std::string>&, std::vector <double>&, double, double, int, int, int);
     int TypeId() const;
 
     // Setters:

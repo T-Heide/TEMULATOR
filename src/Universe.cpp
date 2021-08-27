@@ -276,22 +276,34 @@ Rcpp::DataFrame Universe::Sample(double min_vaf, double purity, double depth, in
   std::vector <int> alt_mutation;
   std::vector <int> depth_mutation;
   std::vector <std::string> id_mutations;
-  
-  this->Sample(clone_mutation, alt_mutation, depth_mutation, id_mutations, min_vaf, purity, depth, depth_model);
-  
-  
+  std::vector <double> ccf_mutation;
+
+  this->Sample(
+      clone_mutation,
+      alt_mutation,
+      depth_mutation,
+      id_mutations,
+      ccf_mutation,
+      min_vaf,
+      purity,
+      depth,
+      depth_model
+    );
+
+
   // Copy vectors to output R-Vector:
   Rcpp::IntegerVector out_clone(clone_mutation.size());
   Rcpp::IntegerVector out_alt(alt_mutation.size());
   Rcpp::IntegerVector out_depth(depth_mutation.size());
   Rcpp::CharacterVector out_ids(id_mutations.size());
-  
-  
+  Rcpp::NumericVector out_ccf(ccf_mutation.size());
+
   for(std::vector<double>::size_type i = 0; i < clone_mutation.size(); i++) {
     out_clone[i] = clone_mutation[i];
     out_alt[i] = alt_mutation[i];
     out_depth[i] = depth_mutation[i];
     out_ids[i] = id_mutations[i];
+    out_ccf[i] = ccf_mutation[i];
   }
   
   
@@ -300,7 +312,8 @@ Rcpp::DataFrame Universe::Sample(double min_vaf, double purity, double depth, in
         Rcpp::Named("clone") = out_clone,
         Rcpp::Named("alt") = out_alt,
         Rcpp::Named("depth") = out_depth,
-        Rcpp::Named("id") = out_ids
+        Rcpp::Named("id") = out_ids,
+        Rcpp::Named("ccf") = out_ccf
     );
   ;
 }
@@ -310,9 +323,10 @@ bool Universe::Sample(std::vector <int> &clone,
                       std::vector <int> &alt,
                       std::vector <int> &depth,
                       std::vector <std::string> &ids,
-                      double min_vaf, 
-                      double purity, 
-                      double avg_depth, 
+                      std::vector <double> &ccf,
+                      double min_vaf,
+                      double purity,
+                      double avg_depth,
                       int depth_model) const
 {
 
@@ -325,10 +339,10 @@ bool Universe::Sample(std::vector <int> &clone,
   // Traverse the Phylogenies:
   int ncells2 = 0;
   for (std::vector<CellType*>::size_type i = 0; i < mpPhylogenies.size(); i++){
-    ncells2 += mpPhylogenies[i]->Root()->SampleNode(clone, alt, depth, ids,
-                                                    min_vaf, 
-                                                    purity, 
-                                                    avg_depth, 
+    ncells2 += mpPhylogenies[i]->Root()->SampleNode(clone, alt, depth, ids, ccf,
+                                                    min_vaf,
+                                                    purity,
+                                                    avg_depth,
                                                     depth_model,
                                                     ncells);
   }
