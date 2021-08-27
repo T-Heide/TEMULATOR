@@ -58,8 +58,8 @@ test_that("reproducibility of simulations", {
       return(x)
     }
   
-  tested_sims_rep = make_repoducible_object(tested_simulations)
-  tested_sims_exp_rep = make_repoducible_object(tested_sims_expected)
+  tested_sims_rep = lapply(tested_simulations, make_repoducible_object)
+  tested_sims_exp_rep = lapply(tested_sims_expected, make_repoducible_object)
   expect_equal(length(tested_sims_rep), length(tested_sims_exp_rep))
   
   for (i in seq_along(tested_sims_rep))
