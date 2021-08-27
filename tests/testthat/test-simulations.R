@@ -27,6 +27,14 @@ tested_parameter_sets =
            fathers=c(0,0))
   )
 
+# load a dataset containing previous outputs
+# these can be checked against the current ones
+tested_sims_expected = 
+  system.file(
+    "testdata", 
+    "tested_simulations.rds", 
+    package = "TEMULATOR"
+  ) %>% readRDS()
 
 tested_simulations = 
   tested_parameter_sets %>%
@@ -42,17 +50,20 @@ test_that("object structure", {
 
 test_that("reproducibility of simulations", {
   
-  calculate_repoducible_checksum = 
+  make_repoducible_object = 
     function(x) {
       class(x) = "list" # revert to the old class type
       x$mutation_data$id = NULL
       x$mutation_data$clone = NULL
-      return(digest::sha1(x))
+      return(x)
     }
   
+  tested_sims_rep = make_repoducible_object(tested_simulations)
+  tested_sims_exp_rep = make_repoducible_object(tested_sims_expected)
+  expect_equal(length(tested_sims_rep), length(tested_sims_exp_rep))
   
-  checksums = sapply(tested_simulations, calculate_repoducible_checksum)
-  expect_equal(as.character(checksums), names(checksums))
+  for (i in seq_along(tested_sims_rep))
+    expect_equal(tested_sims_rep[[i]], tested_sims_exp_rep[[i]])
   
 })
 
