@@ -21,3 +21,37 @@
 #'   \item{assigned_id}{id used as identifier in the paper}
 #' }
 "mobster_summary_of_simulations"
+
+
+#' Simulated sequencing data of a sweeping clone at various time points
+#'
+#' Details can be found in the "Time series data" vignette. 
+#'
+#' @format A data frame with 14850 rows and 7 variables:
+#' \describe{
+#'   \item{clone}{Cell clone the mutation is part of.}
+#'   \item{alt}{Simulated number of variant reads.}
+#'   \item{depth}{Simulated coverage of mutated site.}
+#'   \item{id}{Mutation identifier.}
+#'   \item{vaf}{Simulated VAF of the mutation.}
+#'   \item{n_reactions}{Total number of reactions at present time.}
+#'   \item{time}{Gillespie time.}
+#' }
+"samples_selection_sweep"
+
+
+#' Clone frequencies of a sweeping clone at various time points
+#' 
+#' Details can be found in the "Time series data" vignette. 
+#' 
+#' @format A data frame with 50 rows and 7 variables:
+#' \describe{
+#'   \item{reactions}{Total number of reactions at present time.}
+#'   \item{time}{Gillespie time.}
+#'   \item{cells}{Total number of cells.}
+#'   \item{clone1}{Number of cells in the ancestral clone.}
+#'   \item{clone2}{Number of cells in the subclone.}
+#'   \item{seed}{Random seed used to generate the simulation.}
+#'   \item{start_time}{Time point (reactions) at which the subclone was added.}
+#' }
+"clone_f_selection_sweep"

@@ -4,7 +4,9 @@
 \name{mobster_simulations}
 \alias{mobster_simulations}
 \title{150 synthetic sequencing datasets from MOBSTER}
-\format{A names list of 150 temulator_result_objects.}
+\format{
+A names list of 150 temulator_result_objects.
+}
 \usage{
 mobster_simulations
 }
