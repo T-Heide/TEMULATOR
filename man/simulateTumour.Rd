@@ -58,5 +58,6 @@ Main function used to produce a simulation
 }
 \examples{
 simulateTumour()
-simulateTumour(subset_fractions=c("WES"=0.03))
+simulateTumour(subset_fractions=c("WES"=0.03)) 
+simulateTumour(depth=c(30,50,100)) # three different sequencing depths  
 }
