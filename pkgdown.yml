@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  MOBSTER_simulations: MOBSTER_simulations.html
+  time_series: time_series.html
+last_built: 2021-08-30T14:32Z
+
