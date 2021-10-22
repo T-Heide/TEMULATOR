@@ -25,10 +25,68 @@ library(grid)
 library(dplyr)
 ```
 
+### Labels
+```{r options}
+cl_id_names = c(
+  "0"="Clonal",
+  "1"="Hitchhikers (Ancestor+Subclone)",
+  "2"="Ancestor Only (Subclonal)",
+  "3"="Subclone Only (Subclonal)"
+)
+```
+
+### Functions
+```{r functions}
+generate_timeseries_data = function(d, i) {
+  
+  clone_params =
+    d$clone_parameters %>%
+    dplyr::mutate(mutationrate = mutation_rates) %>%
+    dplyr::mutate(birthrate = birthrates) %>%
+    dplyr::mutate(deathrate = deathrates) %>%
+    dplyr::mutate(start_time = clone_start_times) %>%
+    dplyr::mutate(father = fathers) %>%
+    as.matrix()
+  
+  seed = d$simulation_parameters["seed"]
+  tend = d$simulation_parameters["simulation_end_time"]
+  
+  # init simulation and record at differnent time points
+  sim = new(TEMULATOR_object, clone_params, 0, 0, seed) # construct temulator object
+  n_reactions = unique(round(c(1:1000, round(2^seq(log2(1001), log2(tend), length = 100)), tend)))
+  pb = progress::progress_bar$new("[:bar] :percent eta: :eta", tend)
+  all_results = NULL
+  
+  for (n in n_reactions) {
+    
+    pb$update(n/tend)
+    sim$end_time = n   # 1) update the end time
+    sim$run(FALSE)     # 2) run forward, not verbose
+    
+    result_this_sim =  # 3) Observation 
+      data.frame(
+        reactions = sim$n_reactions,
+        t = sim$simulation_time,
+        cells_a = sim$cell_counts[1],
+        cells_sc = sim$cell_counts[2],
+        cells = sum(sim$cell_counts)
+      )
+    
+    all_results = 
+      rbind(
+        all_results,
+        result_this_sim
+      )
+  }
+  
+  return(all_results)
+}
+```
+
 
 # Generation of the simulations
 
-Below we define all the constant parameters. These are - unlike the seed, subclone birth rate (λ_sc) and time point of mutation (t_sc) - not varied. The birth rate of the ancestral clone is λ_a = 1.
+Below we define all the constant parameters. These are - unlike the seed, subclone birth rate $\lambda_{sc}$ and time point of mutation $t_{sc}$ - not varied. The birth rate of the ancestral clone is $\lambda_a = 1$.
 
 ```{r constant_parameters}
 # Simulation parameters:
@@ -44,10 +102,9 @@ depth = 120       # 120x simulated coverage (C̅)
 min_vaf = 0.05    # minimum VAF to accept a variant
 ```
 
-For each combination of λ_sc and t_sc a total of 9 simulations were generated. Since calculating these data takes significant time a dataset containing a summary of all simulation ('mobster_summary_of_simulations') and a list of S3 objects containing the datasets used in the paper ('mobster_simulations') are included in this package.
+For each combination of $\lambda_sc$ and $\lambda_sc$ a total of $9$ simulations were generated. Since calculating these data takes significant time a dataset containing a summary of all simulation ('mobster_summary_of_simulations') and a list of S3 objects containing the datasets used in the paper ('mobster_simulations') are included in this package.
 
-
-The first dataset summaries all 1755 simulations:
+The first dataset summaries all $1755$ simulations:
 
 ```{r summary_of_precalculated_data}
 data("mobster_summary_of_simulations", package="TEMULATOR")
@@ -68,14 +125,12 @@ stopifnot(all(table(t_sc, b_sc) == 9))
 
 The second dataset contains the simulations used in the paper:
 
-```{r load_simulation_results, warning=FALSE}
+```{r load_simulation_results, warning=FALSE, fig.height=3, fig.width=4}
 data("mobster_simulations", package="TEMULATOR")
 
 cat(length(mobster_simulations))
 
-print(mobster_simulations[[1]])
-
-plot(mobster_simulations[[1]])
+print((mobster_simulations[[1]]))
 ```
 
 These pre-calculated data are used throughout this vignette, but they could be recreated using the following code:
@@ -130,18 +185,132 @@ for (i in seq_len(NROW(mobster_summary_of_simulations))) {
 }
 ```
 
+# Details on the simulated dynamics
 
+## Example of a simulated sequencing dataset
 
+Let us now look at one of these examples first. In the following plot a representative example of a simulated sequencing dataset is shown. Here the single subclone (i.e., the second clone C2) with a selective advantage of $10\%$ (i.e., $\lambda_{sc}=1.1$) was introduced at a population size of $t_{sc} = 16$. This was done by updating one cell of $C1$ with the new phenotype $C2$. The number the descendants of this single subclone reached is larger that of all other cells existing at $t_{sc} = 16$. This in turn means that the fraction of cells $x_{C2}$ with the phenotype of the subclone $C2$ compared to the fraction of cells $x_{C1}$ with the ancestral phenotype $C1$ is comparatively large (i.e., $x_{C1}=59\%$ and $x_{C2}=41\%$).
+
+```{r example_of_vaf, fig.height=3.75, fig.width=6.5, out.width='75%'}
+plot(mobster_simulations[[1]], quite = TRUE) + 
+  labs(fill="Mutation type") +  
+  scale_fill_brewer(
+    palette = "Set1",
+    limits = names(cl_id_names),
+    breaks = names(cl_id_names),
+    labels = cl_id_names,
+    drop = FALSE
+  )
+```
+
+Four important structures or groups of cluster are highlighted in the VAF spectrum. The first one is the clonal cluster (shown in red). These are mutations that were assumed to be present in the first cell of the ancestral clone $C1$, meaning that these are present in virtually all cells of the tumour. Since we simulated a pure and diploid tumour, this cluster is visible at a VAF of 50%.
+
+The second highlighted structure is a relatively small group of mutations (shown in blue) that are present in both, some cells of the ancestral clone and all cells of the subclone. These mutations move within the cells of the subclone to a higher frequency and are hence called 'hitchhiker mutations'. It is worthwhile to note that these mutations are present at different true frequencies in the population. This frequency depends on when these arose during the expansion of the ancestral clone.
+
+The third and four highlighted structure are mutations that are only present in the selected subclone (shown in purple) and the ancestral clone (shown in green) respectively. The both form a subclonal power-law tail on their own.
+
+## Temporal dynamics of the clones
+
+As already described only two clones coexist in the simulated datasets. Since the cells of the subclone have a selective advantage over the cells of the ancestral clone, these eventually reach a comparatively large size. These dynamics can be clearly seen if the cell in the tumour are tracked over time. Such time series data can be generated with the 'generate_timeseries_data' function defined above using the following command:
+
+```{r how_to_simulate_timeseries_data, eval=FALSE, include=TRUE}
+time_series_data_example = generate_timeseries_data(mobster_simulations[[1]])
+```
+
+As this might take a while a precalculated dataset is also included in the package. This can be loaded as shown in the following.
+
+```{r load_example_timeseries_data, warning=FALSE, fig.height=3, fig.width=4}
+data("time_series_data_example", package="TEMULATOR")
+print(head(time_series_data_example))
+```
+
+As seen above the dataset contains various variables. These are the total number of reactions *reactions* (i.e., birth & death), the Gillespie time *t*, the number of cells in the population *cells*, the number of ancestral cells *cells_a*, and the number of cells of the subclone *cells_sc*. Together these data show how the number of cells for each of the two subclones change over time. 
+
+Let's now look at this. The following plot shows how the absolute number (left panel) and the proportion (right panel) of the two cell types change over time.
+```{r plot_time_series_data, fig.height=2.2, fig.width=7, out.width='85%'}
+pl = 
+  time_series_data_example %>% 
+  dplyr::mutate(n=cells) %>% 
+  reshape2::melt(id.vars=c("reactions", "t", "n")) %>%
+  dplyr::select(reactions, t, n, clone=variable, Absolute=value) %>% 
+  dplyr::mutate(Proportion=Absolute/n) %>% 
+  reshape2::melt(id.vars=c("reactions", "t", "n", "clone")) %>%
+  ggplot(aes(x = t, y = value, color = clone)) +
+  geom_line() +
+  geom_vline(
+    aes(
+      linetype="Subclone Introduction",
+      xintercept = with(time_series_data_example, t[reactions == 16])
+    ),
+    color="gray20"
+  ) + 
+  facet_wrap(
+    .~variable, 
+    scale="free_y"
+  ) + 
+  xlab("Time") +
+  ylab("Number of cells") +
+  labs(color = "Clone", linetype="") +
+  scale_color_manual(
+    breaks = c("cells", "cells_a", "cells_sc"),
+    labels = c("All cells", "Ancestor", "Subclone"),
+    values = c("gray10", "darkblue", "red")
+  ) + 
+  scale_linetype_manual(
+    breaks = "Subclone Introduction", 
+    values = 3
+  )
+
+plot(pl)
+```
+
+ It can clearly be seen that both clones, ignoring random drift, grow exponentially over time. Since the subclone (shown in red) growths somewhat faster than the ancestral clone (shown in blue), the proportions of cell types change over time, until the subclone reaches the previously mentioned proportion of 41% at the end of the simulation. Another notable aspect is that the relative proportion of both cell types vary considerably while the population size of the subclone is small (i.e., from a time of $t\approx 10$ to $t\approx 15$). This results from the stronger influence of random drift while the population size is small. The following plot shows a smaller window of time and allows to see these dynamics better.
+
+```{r plot_time_series_data_small, fig.height=2.2, fig.width=7, out.width='85%'}
+pl_sc = pl %+% (pl$data %>% dplyr::filter(between(t, 10, 15)))
+plot(pl_sc)
+```
+
+## Relationship between $x_{sc}$, $t_{sc}$ and $\lambda_{sc}$: 
+
+In the end the resulting average proportion of cells are a function of both $\lambda_{sc}$ and $t_{sc}$. This relationship summarised in the following plot which shows the average proportion of the subclone in all simulations. 
+
+```{r sc_fracs, fig.height=2.5, fig.width=4, out.width='50%', message=FALSE, warning=FALSE}
+mobster_summary_of_simulations %>% 
+  dplyr::group_by(subclone_start, subclone_birthrate) %>% 
+  dplyr::summarise(mean_sc_frac=median(subclone_fraction)) %>% 
+  ggplot(aes(x=subclone_start, y=subclone_birthrate-1, fill=mean_sc_frac)) +
+    geom_tile() + 
+    scale_x_log10() + 
+    scale_fill_distiller(palette = 8, direction = 1) + 
+    xlab(bquote(t[sc])) + 
+    ylab(bquote(Delta*lambda[sc])) + 
+    labs(fill=bquote("Median"~N[sc]/N))
+```
+
+In the top left corner of the plot the subclones swept effectively through the population and makes up the majority of cells. In the bottom right corner the subclone did not have sufficient time (yet) to sweep to a high frequency and thus makes up only a small minority of cells. In both of these cases random sampling would rarely sample cells of the ancestral clone and sublone respectively. Likewise, subclonal mutations of the ancestral population or respectively the subclone would not show up in bulk WGS data, since they are below the limit of detection of commonly conducted sequencing experiments. In both cases the observed VAF spectrum would be 'effectively neutral'. The fraction of simulations in which this is the case --- i.e., where the ancestor or the subclone make up less than 5% of the population --- are shown in the plot below.
+
+```{r frac_detectable, fig.height=2.5, fig.width=4.5, out.width='50%', message=FALSE, warning=FALSE}
+mobster_summary_of_simulations %>% 
+  dplyr::group_by(subclone_start, subclone_birthrate) %>% 
+  dplyr::summarise(frac_coexist=mean(between(subclone_fraction, 0.05, 0.95))) %>% 
+  ggplot(aes(x=subclone_start, y=subclone_birthrate-1, fill=frac_coexist)) +
+    geom_tile() + 
+    scale_x_log10() + 
+    scale_fill_distiller(palette = 8, direction = 1) + 
+    xlab(bquote(t[sc])) + 
+    ylab(bquote(Delta*lambda[sc])) + 
+    labs(fill=bquote("Frac. 0.1 < "*x[sc]*"< 0.9"))
+```
 
 # Selection of suitable simulations
 
+The plot below shows the fraction of all cells that subclone made up. For a given insertion time the subclone can either not grow to a significant size (e.g. $\lambda_{sc} < 1.5$ and $t_{sc} = 2048$) or grow so fast that it dominates the whole population (e.g. $\lambda_{sc} > 2$ and $t_{sc} = 2048$). In neither of these two cases a subclonal cluster would be detectable in the site frequency spectrum at a medium sequencing depth of $C \approx 120$ (see figures below). Simulations where the subclone is at a very high or low frequency (red areas) are effectively neutral and from each $20$ simulations were choosen at random
 
-The plot below shows the fraction of all cells that subclone made up. For a given insertion time the subclone can either not grow to a significant size (e.g. λ_sc < 1.5 and t_sc = 2048) or grow so fast that it dominates the whole population (e.g. λ_sc > 2 and t_sc = 2048). In neither of these two cases a subclonal cluster would be detectable in the site frequency spectrum at a medium sequencing depth of C ≈ 120 (see figures below). Simulations where the subclone is at a very high or low frequency (red areas) are effectively neutral and from each 20 simulations were choosen at random
-
-In order to create a reasonable tests with a detactable cluster in the site frequency spectrum 110 simulations where drawn from those where the subclone made up a fraction of 0.2-0.8 of all cells (green area in the plot blow). 
+In order to create a reasonable tests with a detactable cluster in the site frequency spectrum $110$ simulations where drawn from those where the subclone made up a fraction of $0.2$--$0.8$ of all cells (green area in the plot blow). 
 
 
-```{r fraction_subclonal_per_parameter_set, fig.width=6, fig.height=8}
+```{r fraction_subclonal_per_parameter_set, fig.width=6, fig.height=8, out.width='65%'}
 poly_a = data.frame(x=c(-Inf,-Inf,Inf,Inf,-Inf), y=c(1.02,0.9,0.9,1.02,1.02))
 poly_b = data.frame(x=c(-Inf,-Inf,Inf,Inf,-Inf), y=c(0.8,0.2,0.2,0.8,0.8))
 poly_c = data.frame(x=c(-Inf,-Inf,Inf,Inf,-Inf), y=c(0.05,0,0,0.05,0.05))
@@ -191,23 +360,38 @@ sapply(ids_per_group, length)
 ```{r}
 plot_grid = function(object_list, title) {
   
-  plots =
-    mobster_simulations[ids_per_group[[set]]] %>% 
+  add_subclone_placeholder = function(x) {
+    # add a fake mutation of each subclone to the data
+    # this is done to ensure that labels of them show 
+    # up with the same names in the generated plots
+    place_holder=data.frame(clone=c(1, 2), alt=0, depth=Inf, id="100X0")
+    x$mutation_data=rbind(x$mutation_data, place_holder)
+    return(x)
+  }
+
+  plots = object_list %>% 
+    lapply(add_subclone_placeholder) %>%
     lapply(plot, quite=TRUE)
 
   for (i in seq_along(plots)) {
-    plots[[i]] = 
-      plots[[i]] + 
-      labs(title=substr(ids_per_group[[set]][i], 1, 10)) + 
-      theme(plot.caption=element_text(hjust=0, size=6)) + 
-      guides(fill=FALSE)
+    
+    plots[[i]] =
+      plots[[i]] +
+      labs(title = substr(ids_per_group[[set]][i], 1, 10)) +
+      theme(plot.caption = element_text(hjust = 0, size = 6)) +
+      guides(fill = FALSE) +
+      scale_fill_brewer(
+        palette = "Set1",
+        breaks = names(cl_id_names),
+        labels = cl_id_names,
+        drop = FALSE
+      )
   } 
 
   top = textGrob(title,  gp=gpar(fontsize=25, fontface="bold"))
   grid.arrange(grobs=plots, top=top, ncol=3)
   
 }
-
 ```
 
 
@@ -234,4 +418,3 @@ set = "detectable"
 title = "Potentially detectable subclone"
 plot_grid(mobster_simulations[ids_per_group[[set]]], title)
 ```
-

@@ -55,3 +55,17 @@
 #'   \item{start_time}{Time point (reactions) at which the subclone was added.}
 #' }
 "clone_f_selection_sweep"
+
+
+#' Example of a time series dataset for a simulation used in the MOBSTER paper.
+#
+#' @format A data frame with 1100 rows and 5 variables:
+#' \describe{
+#'   \item{reactions}{number of reactions at time point}
+#'   \item{t}{gillespie time at time point}
+#'   \item{cells_a}{number of cells for the ancestral clone  at time point}
+#'   \item{cells_sc}{number of cells for the (selected) subclone  at time point}
+#'   \item{cells}{total number of cells at time point}
+#' }
+"time_series_data_example"
+
