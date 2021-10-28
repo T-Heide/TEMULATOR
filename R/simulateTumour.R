@@ -19,16 +19,15 @@
 #' @export
 #'
 #' @examples 
-#' simulateTumour()
-#' simulateTumour(subset_fractions=c("WES"=0.03)) 
-#' simulateTumour(depth=c(30,50,100)) # three different sequencing depths  
+#' simulateTumour(simulation_end_time=1000)
+#' simulateTumour(subset_fractions=c("WES"=0.03), simulation_end_time=1000) 
+#' simulateTumour(depth=c(30,50,100), simulation_end_time=1000) # three different sequencing depths  
 simulateTumour =
   function(birthrates=c(1.0, 1.0),
            deathrates=c(0.2, 0.2),
            mutation_rates=c(16, 16),
            clone_start_times=c(0, 256),
            fathers=c(0,0),
-           
            simulation_end_time=1048576,
            seed=42,
            number_clonal_mutations=100,

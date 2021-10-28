@@ -57,7 +57,7 @@ A temulator_result_object.
 Main function used to produce a simulation
 }
 \examples{
-simulateTumour()
-simulateTumour(subset_fractions=c("WES"=0.03)) 
-simulateTumour(depth=c(30,50,100)) # three different sequencing depths  
+simulateTumour(simulation_end_time=1000)
+simulateTumour(subset_fractions=c("WES"=0.03), simulation_end_time=1000) 
+simulateTumour(depth=c(30,50,100), simulation_end_time=1000) # three different sequencing depths  
 }

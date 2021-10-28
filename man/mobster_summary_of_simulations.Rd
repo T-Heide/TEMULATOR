@@ -17,7 +17,7 @@ A data frame with 1755 rows and 8 variables:
 }
 }
 \usage{
-mobster_summary_of_simulations
+data(mobster_summary_of_simulations)
 }
 \description{
 Summary statistics of synthetic sequencing datasets used in MOBSTER

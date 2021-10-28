@@ -17,7 +17,7 @@ A data frame with 50 rows and 7 variables:
 }
 }
 \usage{
-clone_f_selection_sweep
+data(clone_f_selection_sweep)
 }
 \description{
 Details can be found in the "Time series data" vignette.

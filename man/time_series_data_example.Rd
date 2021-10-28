@@ -15,7 +15,7 @@ A data frame with 1100 rows and 5 variables:
 }
 }
 \usage{
-time_series_data_example
+data(time_series_data_example)
 }
 \description{
 Example of a time series dataset for a simulation used in the MOBSTER paper.

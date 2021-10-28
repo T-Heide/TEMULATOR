@@ -17,7 +17,7 @@ A data frame with 14850 rows and 7 variables:
 }
 }
 \usage{
-samples_selection_sweep
+data(samples_selection_sweep)
 }
 \description{
 Details can be found in the "Time series data" vignette.

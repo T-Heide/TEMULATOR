@@ -8,7 +8,7 @@
 A names list of 150 temulator_result_objects.
 }
 \usage{
-mobster_simulations
+data(mobster_simulations)
 }
 \description{
 A list of 150 synthetic sequencing data ('temulator_result_object')

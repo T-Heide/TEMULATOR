@@ -4,7 +4,7 @@
 #' used in Caravagna et al. (2020).
 #'
 #' @format A names list of 150 temulator_result_objects.
-#' 
+#' @usage data(mobster_simulations)
 "mobster_simulations"
 
 
@@ -20,6 +20,7 @@
 #'   \item{subclone_fraction}{fraction of all cells that subclone made up}
 #'   \item{assigned_id}{id used as identifier in the paper}
 #' }
+#' @usage data(mobster_summary_of_simulations)
 "mobster_summary_of_simulations"
 
 
@@ -37,6 +38,7 @@
 #'   \item{n_reactions}{Total number of reactions at present time.}
 #'   \item{time}{Gillespie time.}
 #' }
+#' @usage data(samples_selection_sweep)
 "samples_selection_sweep"
 
 
@@ -54,6 +56,7 @@
 #'   \item{seed}{Random seed used to generate the simulation.}
 #'   \item{start_time}{Time point (reactions) at which the subclone was added.}
 #' }
+#' @usage data(clone_f_selection_sweep)
 "clone_f_selection_sweep"
 
 
@@ -67,5 +70,6 @@
 #'   \item{cells_sc}{number of cells for the (selected) subclone  at time point}
 #'   \item{cells}{total number of cells at time point}
 #' }
+#' @usage data(time_series_data_example)
 "time_series_data_example"
 
