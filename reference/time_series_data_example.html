@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • TEMULATOR</title>
+<title>Example of a time series dataset for a simulation used in the MOBSTER paper. — time_series_data_example • TEMULATOR</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Example of a time series dataset for a simulation used in the MOBSTER paper. — time_series_data_example" />
+<meta property="og:description" content="Example of a time series dataset for a simulation used in the MOBSTER paper." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -123,108 +124,33 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Example of a time series dataset for a simulation used in the MOBSTER paper.</h1>
+    
+    <div class="hidden name"><code>time_series_data_example.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Example of a time series dataset for a simulation used in the MOBSTER paper.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>time_series_data_example</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="TEMULATOR_object.html">TEMULATOR_object</a></code> </p>
-        </td>
-        <td><p>A TEMULATER simulation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="clone_f_selection_sweep.html">clone_f_selection_sweep</a></code> </p>
-        </td>
-        <td><p>Clone frequencies of a sweeping clone at various time points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_clone_frequency.temulator_result_object.html">get_clone_frequency(<i>&lt;temulator_result_object&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Gets clone fractions from a TEMULATOR result object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_sequencing_data.temulator_result_object.html">get_sequencing_data(<i>&lt;temulator_result_object&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Gets sequencing data from a TEMULATOR result object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mobster_simulations.html">mobster_simulations</a></code> </p>
-        </td>
-        <td><p>150 synthetic sequencing datasets from MOBSTER</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mobster_summary_of_simulations.html">mobster_summary_of_simulations</a></code> </p>
-        </td>
-        <td><p>Summary statistics of synthetic sequencing datasets used in MOBSTER</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.temulator_result_object.html">plot(<i>&lt;temulator_result_object&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot method for TEMULATOR result object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.temulator_result_object.html">print(<i>&lt;temulator_result_object&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Print method for TEMULATOR result object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="samples_selection_sweep.html">samples_selection_sweep</a></code> </p>
-        </td>
-        <td><p>Simulated sequencing data of a sweeping clone at various time points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="simulateTumour.html">simulateTumour()</a></code> </p>
-        </td>
-        <td><p>Main function used to produce a simulation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="time_series_data_example.html">time_series_data_example</a></code> </p>
-        </td>
-        <td><p>Example of a time series dataset for a simulation used in the MOBSTER paper.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="validate_temulator_result_object.html">validate_temulator_result_object()</a></code> </p>
-        </td>
-        <td><p>Validates a TEMULATOR result object</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 1100 rows and 5 variables:</p><dl>
+  <dt>reactions</dt><dd><p>number of reactions at time point</p></dd>
+  <dt>t</dt><dd><p>gillespie time at time point</p></dd>
+  <dt>cells_a</dt><dd><p>number of cells for the ancestral clone  at time point</p></dd>
+  <dt>cells_sc</dt><dd><p>number of cells for the (selected) subclone  at time point</p></dd>
+  <dt>cells</dt><dd><p>total number of cells at time point</p></dd>
+
+</dl>
+
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
