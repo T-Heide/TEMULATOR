@@ -78,7 +78,7 @@ class Universe {
     std::vector <unsigned int> CellCounts() const;
     
     class CellType* NextReaction(long double*, int*) const;
-    bool Sample(std::vector <int>&, std::vector <int>&, std::vector <int> &, std::vector <std::string>&, double, double, double, int) const;
+    bool Sample(std::vector <int>&, std::vector <int>&, std::vector <int> &, std::vector <double> &,std::vector <std::string>&, double, double, double, int) const;
     Rcpp::DataFrame SampleRcpp(double, double, double, int) const;
     Rcpp::DataFrame SampleSeededRcpp(double, double, double, int, int) const;
     Rcpp::DataFrame Sample(double, double, double, int) const;

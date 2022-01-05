@@ -183,6 +183,7 @@ void simulateNGS(double vaf, int dp, double& sim_vaf, int& sim_alt, int& sim_dp,
 int PhylogenyNode::SampleNode(std::vector <int>& clone,
                               std::vector <int>& alt,
                               std::vector <int>& depth,
+                              std::vector <double>& ccf,
                               std::vector <std::string>& ids,
                               double minVAF,
                               double purity,
@@ -193,13 +194,13 @@ int PhylogenyNode::SampleNode(std::vector <int>& clone,
   int n_cells = 0;
 
   if (mpLeft != 0) {
-    n_cells += mpLeft->SampleNode(clone, alt, depth, ids,
+    n_cells += mpLeft->SampleNode(clone, alt, depth, ccf, ids,
                                   minVAF, purity, dp, dp_model,
                                   total_cells);
   }
 
   if (mpRight != 0) {
-    n_cells += mpRight->SampleNode(clone, alt, depth, ids,
+    n_cells += mpRight->SampleNode(clone, alt, depth, ccf, ids,
                                   minVAF, purity, dp, dp_model,
                                   total_cells);
   }
@@ -209,7 +210,8 @@ int PhylogenyNode::SampleNode(std::vector <int>& clone,
   }
 
   if (n_cells != 0) {
-    double exp_vaf = 0.5 * n_cells / total_cells * purity;
+    double ccf_node =  n_cells * 1.0 / total_cells * purity;
+    double exp_vaf = 0.5 * ccf_node;
     double sim_vaf = 0.0;
     int sim_alt = 0;
     int sim_dp = 0;
@@ -230,6 +232,7 @@ int PhylogenyNode::SampleNode(std::vector <int>& clone,
         clone.push_back(this->TypeId());
         alt.push_back(sim_alt);
         depth.push_back(sim_dp);
+        ccf.push_back(ccf_node);
         ids.push_back(mutation_id);
       }
     }
