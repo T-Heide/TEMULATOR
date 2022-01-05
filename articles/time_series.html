@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TEMULATOR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -93,10 +89,10 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TEMULATOR</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/cowplot/">cowplot</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">TEMULATOR</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/cowplot/" class="external-link">cowplot</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
@@ -105,20 +101,20 @@
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gganimate.com">gganimate</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gganimate.com" class="external-link">gganimate</a></span><span class="op">)</span>
 <span class="co">#&gt; No renderer backend detected. gganimate will default to writing frames to separate files</span>
 <span class="co">#&gt; Consider installing:</span>
 <span class="co">#&gt; - the `gifski` package for gif output</span>
 <span class="co">#&gt; - the `av` package for video output</span>
 <span class="co">#&gt; and restarting the R session</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/theme_cowplot.html">theme_cowplot</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div id="neutral-tumours-with-variable-death-rates" class="section level1">
-<h1 class="hasAnchor">
-<a href="#neutral-tumours-with-variable-death-rates" class="anchor"></a>Neutral tumours with variable death rates</h1>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/theme_cowplot.html" class="external-link">theme_cowplot</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="section level1">
+<h1 id="neutral-tumours-with-variable-death-rates">Neutral tumours with variable death rates<a class="anchor" aria-label="anchor" href="#neutral-tumours-with-variable-death-rates"></a>
+</h1>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># fixed parameters, a neutral tumour:</span>
 <span class="va">fixed_clone_params_neutral</span> <span class="op">=</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
     birthrate <span class="op">=</span> <span class="fl">1</span>,
     mutationrate <span class="op">=</span> <span class="fl">1</span>,
     start_time <span class="op">=</span> <span class="fl">0</span>,
@@ -128,7 +124,7 @@
 <span class="co"># varied parameters:</span>
 <span class="va">n_reactions</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>
 <span class="va">seeds</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>
-<span class="va">deathrates</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.45</span><span class="op">)</span></code></pre></div>
+<span class="va">deathrates</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.45</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create all simulations:</span>
 <span class="va">all_results_neutral</span> <span class="op">=</span> <span class="cn">NULL</span>
@@ -136,7 +132,7 @@
 <span class="kw">for</span> <span class="op">(</span><span class="va">dr</span> <span class="kw">in</span> <span class="va">deathrates</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">for</span> <span class="op">(</span><span class="va">s</span> <span class="kw">in</span> <span class="va">seeds</span><span class="op">)</span> <span class="op">{</span>
     
-    <span class="va">this_params</span> <span class="op">=</span> <span class="va">fixed_clone_params_neutral</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>deathrate<span class="op">=</span><span class="va">dr</span><span class="op">)</span>
+    <span class="va">this_params</span> <span class="op">=</span> <span class="va">fixed_clone_params_neutral</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>deathrate<span class="op">=</span><span class="va">dr</span><span class="op">)</span>
     <span class="va">sim</span> <span class="op">=</span> <span class="fu">new</span><span class="op">(</span><span class="va">TEMULATOR_object</span>, <span class="va">this_params</span>, <span class="fl">0</span>, <span class="fl">100</span>, <span class="va">s</span><span class="op">)</span> <span class="co"># construct temulator object</span>
 
     <span class="kw">for</span> <span class="op">(</span><span class="va">n</span> <span class="kw">in</span> <span class="va">n_reactions</span><span class="op">)</span> <span class="op">{</span>
@@ -145,16 +141,16 @@
       <span class="va">sim</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>   <span class="co"># 2) run forward, not verbose</span>
       
       <span class="va">result_this_simulation</span> <span class="op">=</span>
-        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
           reactions<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">n_reactions</span>,
           t<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">simulation_time</span>,
-          cells<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">)</span>,
+          cells<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">)</span>,
           seed<span class="op">=</span><span class="va">s</span>,
           dr<span class="op">=</span><span class="va">dr</span>
         <span class="op">)</span>
 
       <span class="va">all_results_neutral</span> <span class="op">=</span> 
-        <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>
           <span class="va">all_results_neutral</span>, 
           <span class="va">result_this_simulation</span>
         <span class="op">)</span>
@@ -163,36 +159,36 @@
   <span class="op">}</span>
 <span class="op">}</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">all_results_neutral</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">t</span>, y<span class="op">=</span><span class="va">cells</span>, group<span class="op">=</span><span class="va">seed</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"gray10"</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span><span class="op">(</span>palette<span class="op">=</span><span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Time"</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of cells"</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Deathrate: "</span>, <span class="va">dr</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span>, scales<span class="op">=</span><span class="st">"free"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">all_results_neutral</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">t</span>, y<span class="op">=</span><span class="va">cells</span>, group<span class="op">=</span><span class="va">seed</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"gray10"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>palette<span class="op">=</span><span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Time"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Number of cells"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Deathrate: "</span>, <span class="va">dr</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span>, scales<span class="op">=</span><span class="st">"free"</span><span class="op">)</span>
 <span class="co">#&gt; Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =</span>
 <span class="co">#&gt; "none")` instead.</span></code></pre></div>
 <p><img src="time_series_files/figure-html/unnamed-chunk-4-1.png" width="403.2"></p>
 </div>
-<div id="one-subclone-with-variable-higher-birth-rate" class="section level1">
-<h1 class="hasAnchor">
-<a href="#one-subclone-with-variable-higher-birth-rate" class="anchor"></a>One subclone with variable higher birth rate</h1>
+<div class="section level1">
+<h1 id="one-subclone-with-variable-higher-birth-rate">One subclone with variable higher birth rate<a class="anchor" aria-label="anchor" href="#one-subclone-with-variable-higher-birth-rate"></a>
+</h1>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># fixed parameters, a non-neutral tumour:</span>
 <span class="va">fixed_clone_params_selection</span> <span class="op">=</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-    birthrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.3</span><span class="op">)</span>,
-    mutationrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,
-    father <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
-    deathrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
+    birthrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.3</span><span class="op">)</span>,
+    mutationrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,
+    father <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
+    deathrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>
   <span class="op">)</span>
 
 
 <span class="co"># varied parameters:</span>
-<span class="va">n_reactions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">0</span>, to<span class="op">=</span><span class="fl">18</span>, by<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">n_reactions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">0</span>, to<span class="op">=</span><span class="fl">18</span>, by<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">seeds</span> <span class="op">=</span> <span class="fl">1</span>
-<span class="va">start_times</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span></code></pre></div>
+<span class="va">start_times</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create all simulations:</span>
 <span class="va">all_results_selection</span> <span class="op">=</span> <span class="cn">NULL</span>
@@ -200,7 +196,7 @@
 <span class="kw">for</span> <span class="op">(</span><span class="va">st</span> <span class="kw">in</span> <span class="va">start_times</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">for</span> <span class="op">(</span><span class="va">s</span> <span class="kw">in</span> <span class="va">seeds</span><span class="op">)</span> <span class="op">{</span>
     
-    <span class="va">this_params</span> <span class="op">=</span> <span class="va">fixed_clone_params_selection</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>start_time<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">st</span><span class="op">)</span><span class="op">)</span>
+    <span class="va">this_params</span> <span class="op">=</span> <span class="va">fixed_clone_params_selection</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>start_time<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">st</span><span class="op">)</span><span class="op">)</span>
     <span class="va">sim</span> <span class="op">=</span> <span class="fu">new</span><span class="op">(</span><span class="va">TEMULATOR_object</span>, <span class="va">this_params</span>, <span class="fl">0</span>, <span class="fl">100</span>, <span class="va">s</span><span class="op">)</span>
 
     <span class="kw">for</span> <span class="op">(</span><span class="va">n</span> <span class="kw">in</span> <span class="va">n_reactions</span><span class="op">)</span> <span class="op">{</span>
@@ -209,10 +205,10 @@
       <span class="va">sim</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>    <span class="co"># 2) run forward, not verbose</span>
       
       <span class="va">result_this_simulation</span> <span class="op">=</span>
-        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
           reactions<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">n_reactions</span>,
           t<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">simulation_time</span>,
-          cells<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">)</span>,
+          cells<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">)</span>,
           clone1<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
           clone2<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
           seed<span class="op">=</span><span class="va">s</span>,
@@ -220,7 +216,7 @@
         <span class="op">)</span>
 
        <span class="va">all_results_selection</span> <span class="op">=</span> 
-        <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>
           <span class="va">all_results_selection</span>, 
           <span class="va">result_this_simulation</span>
         <span class="op">)</span>
@@ -229,37 +225,37 @@
   <span class="op">}</span>
 <span class="op">}</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">all_results_selection</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>clone2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">clone2</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">clone2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">t</span>, y<span class="op">=</span><span class="va">cells</span>, group<span class="op">=</span><span class="va">seed</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">1.0</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.7</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"A"</span>, y<span class="op">=</span><span class="va">clone1</span><span class="op">)</span>, linetype<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.7</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"B"</span>, y<span class="op">=</span><span class="va">clone2</span><span class="op">)</span>, linetype<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span><span class="op">(</span>palette<span class="op">=</span><span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Time"</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of cells"</span><span class="op">)</span> <span class="op">+</span> 
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"Clone"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Start time: "</span>, <span class="va">start_time</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span>, scales<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">all_results_selection</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>clone2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">clone2</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">clone2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">t</span>, y<span class="op">=</span><span class="va">cells</span>, group<span class="op">=</span><span class="va">seed</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">1.0</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.7</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"A"</span>, y<span class="op">=</span><span class="va">clone1</span><span class="op">)</span>, linetype<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.7</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"B"</span>, y<span class="op">=</span><span class="va">clone2</span><span class="op">)</span>, linetype<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_color_brewer</a></span><span class="op">(</span>palette<span class="op">=</span><span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Time"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Number of cells"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"Clone"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Start time: "</span>, <span class="va">start_time</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span>, scales<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></code></pre></div>
 <p><img src="time_series_files/figure-html/unnamed-chunk-7-1.png" width="528"></p>
 </div>
-<div id="sequencing-samples-showing-a-selective-sweep" class="section level1">
-<h1 class="hasAnchor">
-<a href="#sequencing-samples-showing-a-selective-sweep" class="anchor"></a>Sequencing samples showing a selective sweep</h1>
+<div class="section level1">
+<h1 id="sequencing-samples-showing-a-selective-sweep">Sequencing samples showing a selective sweep<a class="anchor" aria-label="anchor" href="#sequencing-samples-showing-a-selective-sweep"></a>
+</h1>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># fixed parameters, a non-neutral tumour:</span>
 <span class="va">fixed_clone_params_sample</span> <span class="op">=</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-    birthrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.3</span><span class="op">)</span>,
-    mutationrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span><span class="op">)</span>,
-    father <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
-    deathrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
-    start_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
+    birthrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.3</span><span class="op">)</span>,
+    mutationrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span><span class="op">)</span>,
+    father <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
+    deathrate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
+    start_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span><span class="op">)</span>
   <span class="op">)</span>
 
 <span class="va">seed</span> <span class="op">=</span> <span class="fl">1</span>
 
 <span class="co"># varied parameters:</span>
-<span class="va">n_reactions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">0</span>, to<span class="op">=</span><span class="fl">25</span>, by<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">n_reactions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">0</span>, to<span class="op">=</span><span class="fl">25</span>, by<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># parameters for sequencing</span>
 <span class="va">min_vaf</span> <span class="op">=</span> <span class="fl">0.05</span>   <span class="co"># 1% limit of detection</span>
@@ -281,62 +277,62 @@
       
   <span class="co"># cell count data</span>
   <span class="va">cell_counts_this</span> <span class="op">=</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
       reactions<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">n_reactions</span>,
       time<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">simulation_time</span>,
-      cells<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">)</span>,
+      cells<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">)</span>,
       clone1<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
       clone2<span class="op">=</span><span class="va">sim</span><span class="op">$</span><span class="va">cell_counts</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
       seed<span class="op">=</span><span class="va">s</span>,
       start_time<span class="op">=</span><span class="va">st</span>
-    <span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>clone2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">clone2</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">clone2</span><span class="op">)</span><span class="op">)</span>
+    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>clone2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">clone2</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">clone2</span><span class="op">)</span><span class="op">)</span>
 
 
   <span class="co"># sequencing data</span>
   <span class="va">sample_this</span> <span class="op">=</span>       <span class="co"># (see ?simulateTumour for details)</span>
-    <span class="va">sim</span><span class="op">$</span><span class="fu">sample_seeded</span><span class="op">(</span><span class="va">min_vaf</span>, <span class="va">purity</span>, <span class="va">depth</span>, <span class="va">depth_model</span>, <span class="va">seed</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>vaf <span class="op">=</span> <span class="va">alt</span><span class="op">/</span><span class="va">depth</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>n_reactions <span class="op">=</span> <span class="va">n</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">sim</span><span class="op">$</span><span class="va">simulation_time</span><span class="op">)</span>
+    <span class="va">sim</span><span class="op">$</span><span class="fu">sample_seeded</span><span class="op">(</span><span class="va">min_vaf</span>, <span class="va">purity</span>, <span class="va">depth</span>, <span class="va">depth_model</span>, <span class="va">seed</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>vaf <span class="op">=</span> <span class="va">alt</span><span class="op">/</span><span class="va">depth</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>n_reactions <span class="op">=</span> <span class="va">n</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">sim</span><span class="op">$</span><span class="va">simulation_time</span><span class="op">)</span>
   
   
   <span class="co"># append data to result sets</span>
-  <span class="va">clone_f_selection_sweep</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">clone_f_selection_sweep</span>, <span class="va">cell_counts_this</span><span class="op">)</span>
-  <span class="va">samples_selection_sweep</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">samples_selection_sweep</span>, <span class="va">sample_this</span><span class="op">)</span>
+  <span class="va">clone_f_selection_sweep</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">clone_f_selection_sweep</span>, <span class="va">cell_counts_this</span><span class="op">)</span>
+  <span class="va">samples_selection_sweep</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">samples_selection_sweep</span>, <span class="va">sample_this</span><span class="op">)</span>
   
   <span class="co"># break loop if full sweep of subclone observed? </span>
   <span class="kw">if</span> <span class="op">(</span><span class="va">cell_counts_this</span><span class="op">$</span><span class="va">clone2</span> <span class="op">/</span> <span class="va">cell_counts_this</span><span class="op">$</span><span class="va">cells</span> <span class="op">&gt;</span> <span class="fl">0.9</span><span class="op">)</span> <span class="kw">break</span><span class="op">(</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plot_selection_sweep</span> <span class="op">=</span> 
-  <span class="va">samples_selection_sweep</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>mlabel<span class="op">=</span><span class="fu">TEMULATOR</span><span class="fu">:::</span><span class="fu">assign_mutation_label</span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">vaf</span>, fill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">mlabel</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="va">min_vaf</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"VAF"</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of mutations"</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>fill<span class="op">=</span><span class="st">"Cluster"</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"Selective sweep"</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"t = {signif(frame_time, 2)}"</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>, <span class="fl">1.0</span><span class="op">)</span> <span class="op">+</span> 
-      <span class="fu"><a href="https://gganimate.com/reference/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> 
+  <span class="va">samples_selection_sweep</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>mlabel<span class="op">=</span><span class="fu">TEMULATOR</span><span class="fu">:::</span><span class="fu">assign_mutation_label</span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">vaf</span>, fill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">mlabel</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="va">min_vaf</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"VAF"</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Number of mutations"</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill<span class="op">=</span><span class="st">"Cluster"</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"Selective sweep"</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"t = {signif(frame_time, 2)}"</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>, <span class="fl">1.0</span><span class="op">)</span> <span class="op">+</span> 
+      <span class="fu"><a href="https://gganimate.com/reference/transition_time.html" class="external-link">transition_time</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> 
 
 
 <span class="va">plot_selection_sweep</span> <span class="op">=</span>  
   <span class="va">plot_selection_sweep</span> <span class="op">+</span>
   <span class="co"># box marking limit of detection</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html">geom_polygon</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="va">min_vaf</span>, <span class="va">min_vaf</span><span class="op">)</span>, y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>, 
-               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,y<span class="op">=</span><span class="va">y</span><span class="op">)</span>, fill<span class="op">=</span><span class="st">"gray90"</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html" class="external-link">geom_polygon</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="va">min_vaf</span>, <span class="va">min_vaf</span><span class="op">)</span>, y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span>, 
+               <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>,y<span class="op">=</span><span class="va">y</span><span class="op">)</span>, fill<span class="op">=</span><span class="st">"gray90"</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> 
   <span class="co"># line showing expected VAF of subclone</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">clone_f_selection_sweep</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept<span class="op">=</span><span class="va">clone2</span> <span class="op">/</span> <span class="va">cells</span> <span class="op">*</span> <span class="fl">0.5</span><span class="op">)</span>, 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">clone_f_selection_sweep</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xintercept<span class="op">=</span><span class="va">clone2</span> <span class="op">/</span> <span class="va">cells</span> <span class="op">*</span> <span class="fl">0.5</span><span class="op">)</span>, 
              linetype<span class="op">=</span><span class="fl">2</span>, color<span class="op">=</span><span class="st">"gray20"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="co"># label of subclone line</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">clone_f_selection_sweep</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">clone2</span> <span class="op">/</span> <span class="va">cells</span> <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fl">0.025</span><span class="op">)</span>,
-            label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="st">"Exp. VAF subclone"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">clone_f_selection_sweep</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">clone2</span> <span class="op">/</span> <span class="va">cells</span> <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fl">0.025</span><span class="op">)</span>,
+            label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"Exp. VAF subclone"</span><span class="op">)</span>,
             hjust<span class="op">=</span><span class="fl">0</span>, vjust<span class="op">=</span><span class="fl">0.5</span>, y<span class="op">=</span><span class="fl">25</span>, color<span class="op">=</span><span class="st">"gray20"</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> 
 
-<span class="fu"><a href="https://gganimate.com/reference/animate.html">animate</a></span><span class="op">(</span><span class="va">plot_selection_sweep</span>, width<span class="op">=</span><span class="fl">380</span>, height<span class="op">=</span><span class="fl">220</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://gganimate.com/reference/animate.html" class="external-link">animate</a></span><span class="op">(</span><span class="va">plot_selection_sweep</span>, width<span class="op">=</span><span class="fl">380</span>, height<span class="op">=</span><span class="fl">220</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
 
@@ -351,11 +347,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Timon Heide.</p>
+  <p></p>
+<p>Developed by Timon Heide.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -363,6 +361,8 @@
 
   
 
+
+  
 
   </body>
 </html>
