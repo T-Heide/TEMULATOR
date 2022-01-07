@@ -139,7 +139,7 @@ validate_temulator_result_object =
       
       # data frame
       testthat::expect_true(is.data.frame(d))
-      testthat::expect_identical(colnames(d), c("clone","alt","depth","id"))
+      testthat::expect_identical(colnames(d), c("clone","alt","depth","ccf","id"))
       
       # basic mutation properties:
       testthat::expect_true(all(d$alt > 0))
