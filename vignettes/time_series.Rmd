@@ -25,6 +25,17 @@ theme_set(theme_cowplot())
 ```
 
 
+### Labels
+```{r options}
+cl_id_names = c(
+  "0"="Clonal",
+  "1"="Hitchhikers (Ancestor+Subclone)",
+  "2"="Ancestor Only (Subclonal)",
+  "3"="Subclone Only (Subclonal)"
+)
+```
+
+
 # Neutral tumours with variable death rates
 
 ```{r}
@@ -245,16 +256,25 @@ data(samples_selection_sweep)
 plot_selection_sweep = 
   samples_selection_sweep %>%
   mutate(mlabel=TEMULATOR:::assign_mutation_label(.)) %>%
+  filter(!is.na(vaf)) %>% 
   ggplot(aes(x=vaf, fill=factor(mlabel))) + 
       geom_histogram(breaks=seq(from=min_vaf, 1, by = 0.01)) + 
       scale_fill_brewer(palette = "Set1") + 
       xlab("VAF") + 
       ylab("Number of mutations") + 
-      labs(fill="Cluster") + 
+      labs(fill="Group") + 
       labs(title="Selective sweep") + 
       labs(subtitle = "t = {signif(frame_time, 2)}") + 
       xlim(-0.01, 1.0) + 
-      transition_time(time) 
+      transition_time(time)  +
+      #theme( legend.position="bottom") +
+      scale_fill_brewer(
+        palette = "Set1",
+        limits = names(cl_id_names),
+        breaks = names(cl_id_names),
+        labels = cl_id_names,
+        drop = FALSE
+      )
 
 
 plot_selection_sweep =  
@@ -270,5 +290,9 @@ plot_selection_sweep =
             label=factor("Exp. VAF subclone"),
             hjust=0, vjust=0.5, y=25, color="gray20", inherit.aes = FALSE) 
 
-animate(plot_selection_sweep, width=380, height=220)
+anim = animate(plot_selection_sweep, width=450, height=220)
+anim_save("tumour.gif", anim)
 ```
+
+![](tumour.gif)
+
