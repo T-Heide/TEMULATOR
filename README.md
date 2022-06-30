@@ -1,4 +1,4 @@
-# TEMULATOR <img src='man/figures/logo.png' align="right" height="139" />
+# TEMULATOR
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/T-Heide/TEMULATOR/workflows/R-CMD-check/badge.svg)](https://github.com/T-Heide/TEMULATOR/actions)
 [![codecov](https://codecov.io/gh/T-Heide/TEMULATOR/branch/master/graph/badge.svg)](https://codecov.io/gh/T-Heide/TEMULATOR)
